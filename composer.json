@@ -12,5 +12,8 @@
             "email": "yaniva@gigya-inc.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+      "psr-4" : {"Gigya\\": "src/"}
+    }
 }

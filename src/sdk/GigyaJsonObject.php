@@ -6,7 +6,7 @@
  * Time: 11:24 AM
  */
 
-namespace sdk;
+namespace gigya\sdk;
 
 
 abstract class GigyaJsonObject
@@ -29,12 +29,13 @@ abstract class GigyaJsonObject
 
     public function __get($name)
     {
-        $getter = 'get' . ucfirst($name);
+        $getter = $name;
+        $prop = substr($name, 3);
         if (method_exists($this, $getter)) {
             return call_user_func(array($this, $getter));
         }
 
-        return $this->$name;
+        return $this->$prop;
     }
 
     public function __set($name, $value)
