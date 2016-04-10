@@ -15,8 +15,7 @@ class TestEncryption extends PHPUnit_Framework_TestCase
         $toEnc = "testing testing 123";
         $encStr = \gigya\GigyaApiHelper::enc($toEnc, $this->key);
         $decStr = \gigya\GigyaApiHelper::decrypt($encStr, $this->key);
-        $p = unpack("C*", $decStr);
-        $this->assertTrue(strcmp($toEnc, $decStr) == 0);
+        $this->assertEquals($toEnc, $decStr);
     }
 
     protected function setUp()

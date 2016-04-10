@@ -21,7 +21,9 @@ class GigyaApiHelper
     private $key;
     private $secret;
     private $apiKey;
+    private $dataCenter;
     private $token;
+    const DEFAULT_CONFIG_FILE_PATH = ".." . DIRECTORY_SEPARATOR . "configuration/DefaultConfiguration";
 
     /**
      * GigyaApiHelper constructor.
@@ -31,9 +33,12 @@ class GigyaApiHelper
      */
     public function __construct($key, $secret, $dataCenter, $apiKey)
     {
-        $this->key    = $key;
-        $this->secret = $secret;
-        $this->apiKey = $apiKey;
+        $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
+        $this->key    = !empty($key) ? $key : $confArray['appKey'];
+        $this->secret = !empty($secret) ? self::decrypt($secret) : self::decrypt($confArray['appSecret']);
+        $this->apiKey = !empty($apiKey) ? $apiKey : $confArray['apiKey'];
+        $this->dataCenter = !empty($dataCenter) ? $dataCenter : $confArray['dataCenter'];
+
     }
 
     public function sendApiCall($method, $params)
@@ -96,7 +101,7 @@ class GigyaApiHelper
 
     public function getSiteSchema()
     {
-        $params = new GSObject();
+        $params = GSFactory::createGSObjectFromArray(array("apiKey" => $this->apiKey));
         $res    = $this->sendApiCall("accounts.getSchema", $params);
         //TODO: implement
     }
@@ -134,7 +139,7 @@ class GigyaApiHelper
             $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,
                 $text_only, MCRYPT_MODE_CBC, $iv);
 
-            return $plaintext_dec;
+            return substr($plaintext_dec, 0, strpos($plaintext_dec, "\0"));
         }
         return $str;
     }
