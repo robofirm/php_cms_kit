@@ -10,16 +10,16 @@ namespace gigya\sdk;
  */
 class GSFactory {
 
-	public static function createGsRequest($apiKey, $secretKey, $apiMethod, $params, $useHTTPS = true) {
-		return new GigyaApiRequest($apiKey, $secretKey, $apiMethod, $params, $useHTTPS);
+	public static function createGsRequest($apiKey, $secretKey, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
+		return new GigyaApiRequest($apiKey, $secretKey, $apiMethod, $params, $dataCenter, $useHTTPS);
 	}
 
-	public static function createGSRequestAppKey($apiKey, $appKey, $appSecret, $apiMethod, $params, $useHTTPS = true) {
-		return new GigyaApiRequest($apiKey, $appSecret, $apiMethod, $params, $useHTTPS, $appKey);
+	public static function createGSRequestAppKey($apiKey, $appKey, $appSecret, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
+		return new GigyaApiRequest($apiKey, $appSecret, $apiMethod, $params, $useHTTPS, $dataCenter, $appKey);
 	}
 
-	public static function createGSRequestAccessToken($token, $apiMethod, $params, $useHTTPS = true) {
-		return new GigyaApiRequest($token, null, $apiMethod, $params, $useHTTPS);
+	public static function createGSRequestAccessToken($token, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
+		return new GigyaApiRequest($token, null, $apiMethod, $params, $dataCenter, $useHTTPS);
 	}
 
 	public static function createGSObjectFromArray($array) {
