@@ -6,7 +6,7 @@
  * Time: 8:49 PM
  */
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 
 
 class GSKeyNotFoundException extends GSException

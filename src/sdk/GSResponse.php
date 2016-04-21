@@ -6,7 +6,7 @@
  * Time: 8:52 PM
  */
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 
 
 class GSResponse

@@ -1,6 +1,6 @@
 <?php
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 /**
  * Created by PhpStorm.
  * User: Yaniv Aran-Shamir

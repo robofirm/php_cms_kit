@@ -6,14 +6,14 @@
  * Time: 5:06 PM
  */
 
-namespace gigya;
+namespace Gigya;
 
 
-use gigya\sdk\GSApiException;
-use gigya\sdk\GSFactory;
-use gigya\sdk\GSObject;
-use gigya\sdk\SigUtils;
-use gigya\user\GigyaUserFactory;
+use Gigya\sdk\GSApiException;
+use Gigya\sdk\GSFactory;
+use Gigya\sdk\GSObject;
+use Gigya\sdk\SigUtils;
+use Gigya\user\GigyaUserFactory;
 
 class GigyaApiHelper
 {

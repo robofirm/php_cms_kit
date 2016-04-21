@@ -6,7 +6,7 @@
  * Time: 11:24 AM
  */
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 
 
 abstract class GigyaJsonObject

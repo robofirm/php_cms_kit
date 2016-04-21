@@ -6,11 +6,11 @@
  * Time: 1:11 PM
  */
 
-namespace gigya\user;
+namespace Gigya\user;
 
 
-use gigya\sdk\GigyaJsonObject;
-use gigya\user\GigyaProfile;
+use Gigya\sdk\GigyaJsonObject;
+use Gigya\user\GigyaProfile;
 
 class GigyaUser extends GigyaJsonObject
 {

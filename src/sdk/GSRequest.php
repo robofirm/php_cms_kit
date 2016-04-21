@@ -6,7 +6,7 @@
  * Time: 8:50 PM
  */
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 
 
 class GSRequest

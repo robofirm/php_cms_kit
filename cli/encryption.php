@@ -9,16 +9,16 @@
 include_once "../src/GigyaApiHelper.php";
 
 if ($argv[1] == "-e") {
-    $encStr = \gigya\GigyaApiHelper::enc($argv[2]);
+    $encStr = \Gigya\GigyaApiHelper::enc($argv[2]);
 
     echo $encStr . PHP_EOL;
 } elseif ($argv[1] == "-d") {
-    $dec = \gigya\GigyaApiHelper::decrypt($argv[2]);
+    $dec = \Gigya\GigyaApiHelper::decrypt($argv[2]);
 
     echo $dec . PHP_EOL;
 } elseif ($argv[1] == "-gen") {
     $str = isset($argv[2]) ? $argv[2] : null;
-    $key = \gigya\GigyaApiHelper::genKeyFromString($str);
+    $key = \Gigya\GigyaApiHelper::genKeyFromString($str);
 
     echo $key . PHP_EOL;
 }

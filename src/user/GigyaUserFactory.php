@@ -6,10 +6,10 @@
  * Time: 5:09 PM
  */
 
-namespace gigya\user;
+namespace Gigya\user;
 
 
-use gigya\user\GigyaProfile;
+use Gigya\user\GigyaProfile;
 
 class GigyaUserFactory
 {
