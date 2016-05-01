@@ -32,6 +32,6 @@ class GigyaApiRequest extends GSRequest
 	public function __construct( $apiKey, $secretKey, $apiMethod, $params, $dataCenter, $useHTTPS = true, $userKey = null ) {
 		parent::__construct( $apiKey, $secretKey, $apiMethod, $params, $useHTTPS, $userKey );
         $this->setAPIDomain($dataCenter);
-		$this->setCAFile("../sdk/cacert.pem");
+		$this->setCAFile(realpath(dirname(__FILE__) . "/cacert.pem"));
 	}
 }
