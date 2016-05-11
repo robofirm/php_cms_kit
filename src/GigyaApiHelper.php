@@ -31,7 +31,7 @@ class GigyaApiHelper
      * @param string $key    gigya app/user key
      * @param string $secret gigya app/user secret
      */
-    public function __construct($key, $secret, $dataCenter, $apiKey)
+    public function __construct($apiKey, $key, $secret, $dataCenter)
     {
         $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
         $this->key    = !empty($key) ? $key : $confArray['appKey'];

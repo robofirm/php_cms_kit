@@ -10,12 +10,12 @@ namespace Gigya\sdk;
  */
 class GSFactory {
 
-	public static function createGsRequest($apiKey, $secretKey, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
-		return new GigyaApiRequest($apiKey, $secretKey, $apiMethod, $params, $dataCenter, $useHTTPS);
+	public static function createGsRequest($apiKey, $secret, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
+		return new GigyaApiRequest($apiKey, $secret, $apiMethod, $params, $dataCenter, $useHTTPS);
 	}
 
-	public static function createGSRequestAppKey($apiKey, $appKey, $appSecret, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
-		return new GigyaApiRequest($apiKey, $appSecret, $apiMethod, $params, $useHTTPS, $dataCenter, $appKey);
+	public static function createGSRequestAppKey($apiKey, $key, $secret, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
+		return new GigyaApiRequest($apiKey, $secret, $apiMethod, $params, $dataCenter, $useHTTPS, $key);
 	}
 
 	public static function createGSRequestAccessToken($token, $apiMethod, $params, $dataCenter = "us1.gigya.com", $useHTTPS = true) {
