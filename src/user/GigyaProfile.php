@@ -794,5 +794,4 @@ class GigyaProfile extends GigyaJsonObject
         $this->publications = $publications;
     }
 
-
 }

@@ -49,7 +49,7 @@ class GigyaApiHelper
         return $req->send();
     }
 
-    public function validateUid($uid, $uidSignature, $signatureTimestamp)
+    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null)
     {
         $params       = array(
             "UID"                => $uid,
