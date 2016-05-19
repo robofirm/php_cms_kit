@@ -23,7 +23,7 @@ class GigyaApiHelper
     private $apiKey;
     private $dataCenter;
     private $token;
-    const DEFAULT_CONFIG_FILE_PATH = ".." . DIRECTORY_SEPARATOR . "configuration/DefaultConfiguration";
+    const DEFAULT_CONFIG_FILE_PATH = ".." . DIRECTORY_SEPARATOR . "configuration/DefaultConfiguration.json";
 
     /**
      * GigyaApiHelper constructor.

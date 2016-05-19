@@ -9,11 +9,11 @@
 include_once "../src/GigyaApiHelper.php";
 
 if ($argv[1] == "-e") {
-    $encStr = \gigya\GigyaApiHelper::enc($argv[2]);
+    $encStr = \gigya\GigyaApiHelper::enc($argv[2], $argv[3]);
 
     echo $encStr . PHP_EOL;
 } elseif ($argv[1] == "-d") {
-    $dec = \gigya\GigyaApiHelper::decrypt($argv[2]);
+    $dec = \gigya\GigyaApiHelper::decrypt($argv[2], $argv[3]);
 
     echo $dec . PHP_EOL;
 } elseif ($argv[1] == "-gen") {
