@@ -6,7 +6,7 @@
  * Time: 8:57 PM
  */
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 
 
 class SigUtils

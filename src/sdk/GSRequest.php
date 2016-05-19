@@ -6,8 +6,10 @@
  * Time: 8:50 PM
  */
 
-namespace gigya\sdk;
+namespace Gigya\sdk;
 
+
+use Exception;
 
 class GSRequest
 {
@@ -27,7 +29,7 @@ class GSRequest
 
     private $apiKey;
     private $userKey;
-    private $secretKey;
+    private $secret;
     private $params; //GSObject
     private $useHTTPS;
     private $apiDomain = self::DEFAULT_API_DOMAIN;
@@ -35,7 +37,7 @@ class GSRequest
 
     static function __constructStatic()
     {
-        GSRequest::$cafile = realpath('./cacert.pem');
+        GSRequest::$cafile = realpath(dirname(__FILE__) . "/cacert.pem");
     }
 
     /**
@@ -52,7 +54,7 @@ class GSRequest
      * @param userKey userKey A key of an admin user with extra permissions.
      * If this parameter is provided, then the secretKey parameter is assumed to be the admin user's secret key and not the site's secret key.
      */
-    public function __construct($apiKey, $secretKey, $apiMethod, $params = null, $useHTTPS = false, $userKey = null)
+    public function __construct($apiKey, $secret, $apiMethod, $params = null, $useHTTPS = false, $userKey = null)
     {
         if (!isset($apiMethod) || strlen($apiMethod) == 0)
             return;
@@ -82,7 +84,7 @@ class GSRequest
         $this->useHTTPS = $useHTTPS;
 
         $this->apiKey = $apiKey;
-        $this->secretKey = $secretKey;
+        $this->secretKey = $secret;
         $this->userKey = $userKey;
 
         $this->traceField("apiMethod", $apiMethod);
@@ -241,19 +243,19 @@ class GSRequest
 
         /* POST */
         $defaults = array(
-            CURLOPT_URL => $url,
-            CURLOPT_POST => 1,
-            CURLOPT_HEADER => 1,
-            CURLOPT_POSTFIELDS => $qs,
-            CURLOPT_HTTPHEADER => array('Expect:'),
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_SSL_VERIFYPEER => TRUE,
-            CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CAINFO => GSRequest::$cafile,
-            CURLOPT_PROXY => $this->proxy,
-            CURLOPT_PROXYTYPE => $this->proxyType,
-            CURLOPT_PROXYUSERPWD => $this->proxyUserPass,
-            CURLOPT_TIMEOUT_MS => $timeout
+          CURLOPT_URL => $url,
+          CURLOPT_POST => 1,
+          CURLOPT_HEADER => 1,
+          CURLOPT_POSTFIELDS => $qs,
+          CURLOPT_HTTPHEADER => array('Expect:'),
+          CURLOPT_RETURNTRANSFER => TRUE,
+          CURLOPT_SSL_VERIFYPEER => TRUE,
+          CURLOPT_SSL_VERIFYHOST => 2,
+          CURLOPT_CAINFO => GSRequest::$cafile,
+          CURLOPT_PROXY => $this->proxy,
+          CURLOPT_PROXYTYPE => $this->proxyType,
+          CURLOPT_PROXYUSERPWD => $this->proxyUserPass,
+          CURLOPT_TIMEOUT_MS => $timeout
         );
 
         $ch = curl_init();

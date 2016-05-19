@@ -6,14 +6,14 @@
  * Time: 5:06 PM
  */
 
-namespace gigya;
+namespace Gigya;
 
 
-use gigya\sdk\GSApiException;
-use gigya\sdk\GSFactory;
-use gigya\sdk\GSObject;
-use gigya\sdk\SigUtils;
-use gigya\user\GigyaUserFactory;
+use Gigya\sdk\GSApiException;
+use Gigya\sdk\GSFactory;
+use Gigya\sdk\GSObject;
+use Gigya\sdk\SigUtils;
+use Gigya\user\GigyaUserFactory;
 
 class GigyaApiHelper
 {
@@ -31,7 +31,7 @@ class GigyaApiHelper
      * @param string $key    gigya app/user key
      * @param string $secret gigya app/user secret
      */
-    public function __construct($key, $secret, $dataCenter, $apiKey)
+    public function __construct($apiKey, $key, $secret, $dataCenter)
     {
         $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
         $this->key    = !empty($key) ? $key : $confArray['appKey'];
@@ -49,7 +49,7 @@ class GigyaApiHelper
         return $req->send();
     }
 
-    public function validateUid($uid, $uidSignature, $signatureTimestamp)
+    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null)
     {
         $params       = array(
             "UID"                => $uid,

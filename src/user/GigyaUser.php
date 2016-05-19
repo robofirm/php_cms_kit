@@ -6,11 +6,11 @@
  * Time: 1:11 PM
  */
 
-namespace gigya\user;
+namespace Gigya\user;
 
 
-use gigya\sdk\GigyaJsonObject;
-use gigya\user\GigyaProfile;
+use Gigya\sdk\GigyaJsonObject;
+use Gigya\user\GigyaProfile;
 
 class GigyaUser extends GigyaJsonObject
 {
@@ -423,6 +423,10 @@ class GigyaUser extends GigyaJsonObject
             $emailLoginId = $this->getProfile()->getEmail();
         }
         return $emailLoginId;
+    }
+
+    public function isRaasPrimaryUser($email) {
+        return in_array($email, $this->getLoginIDs()['emails']);
     }
 
 }

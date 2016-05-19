@@ -13,14 +13,14 @@ class TestEncryption extends PHPUnit_Framework_TestCase
     public function testEnc()
     {
         $toEnc = "testing testing 123";
-        $encStr = \gigya\GigyaApiHelper::enc($toEnc, $this->key);
-        $decStr = \gigya\GigyaApiHelper::decrypt($encStr, $this->key);
+        $encStr = \Gigya\GigyaApiHelper::enc($toEnc, $this->key);
+        $decStr = \Gigya\GigyaApiHelper::decrypt($encStr, $this->key);
         $this->assertEquals($toEnc, $decStr);
     }
 
     protected function setUp()
     {
-        $this->key = \gigya\GigyaApiHelper::genKeyFromString("testGenKey");
+        $this->key = \Gigya\GigyaApiHelper::genKeyFromString("testGenKey");
     }
     
     

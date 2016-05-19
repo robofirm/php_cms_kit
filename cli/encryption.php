@@ -18,7 +18,7 @@ if ($argv[1] == "-e") {
     echo $dec . PHP_EOL;
 } elseif ($argv[1] == "-gen") {
     $str = isset($argv[2]) ? $argv[2] : null;
-    $key = \gigya\GigyaApiHelper::genKeyFromString($str);
+    $key = \Gigya\GigyaApiHelper::genKeyFromString($str);
 
     echo $key . PHP_EOL;
 }

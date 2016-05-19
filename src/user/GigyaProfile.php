@@ -6,10 +6,10 @@
  * Time: 5:07 PM
  */
 
-namespace gigya\user;
+namespace Gigya\user;
 
 
-use gigya\sdk\GigyaJsonObject;
+use Gigya\sdk\GigyaJsonObject;
 
 class GigyaProfile extends GigyaJsonObject
 {
@@ -793,6 +793,5 @@ class GigyaProfile extends GigyaJsonObject
     {
         $this->publications = $publications;
     }
-
 
 }
