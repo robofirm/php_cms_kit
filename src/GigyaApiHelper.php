@@ -49,19 +49,17 @@ class GigyaApiHelper
         return $req->send();
     }
 
-    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null)
+    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null, $params = array())
     {
-        $params       = array(
-            "UID"                => $uid,
-            "UIDSignature"       => $uidSignature,
-            "signatureTimestamp" => $signatureTimestamp
-        );
+        $params['UID'] = $uid;
+        $params['UIDSignature'] = $uidSignature;
+        $params['signatureTimestamp'] = $signatureTimestamp;
         $res          = $this->sendApiCall("socialize.exchangeUIDSignature", $params);
         $sig          = $res->getData()->getString("UIDSignature", null);
         $sigTimestamp = $res->getData()->getString("signatureTimestamp", null);
         if (null !== $sig && null !== $sigTimestamp) {
             if (SigUtils::validateUserSignature($uid, $sigTimestamp, $this->secret, $sig)) {
-                $user = $this->fetchGigyaAccount($uid);
+                $user = $this->fetchGigyaAccount($uid, $include, $extraProfileFields);
 
                 return $user;
             }
