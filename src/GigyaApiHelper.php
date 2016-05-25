@@ -139,7 +139,7 @@ class GigyaApiHelper
             $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,
                 $text_only, MCRYPT_MODE_CBC, $iv);
 
-            return substr($plaintext_dec, 0, strpos($plaintext_dec, "\0"));
+            return $plaintext_dec;
         }
         return $str;
     }
