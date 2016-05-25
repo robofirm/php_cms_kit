@@ -15,5 +15,10 @@
     "require": {},
     "autoload": {
       "psr-4" : {"Gigya\\": "src/"}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "dev-1.0"
+        }
     }
 }
