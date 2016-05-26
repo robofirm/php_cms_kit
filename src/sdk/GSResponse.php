@@ -102,6 +102,7 @@ class GSResponse
     /* C'tor */
     public function __construct($method, $responseText = null, $params = null, $errorCode = null, $errorMessage = null, $traceLog = null)
     {
+        $this->data = new GSObject();
         $this->traceLog = $traceLog;
         $this->method = $method;
         if (empty($params))
