@@ -44,7 +44,7 @@ class GigyaApiHelper
     public function sendApiCall($method, $params)
     {
         $req = GSFactory::createGSRequestAppKey($this->apiKey, $this->key, $this->secret, $method,
-            GSFactory::createGSObjectFromArray($params));
+            GSFactory::createGSObjectFromArray($params), $this->dataCenter);
 
         return $req->send();
     }
