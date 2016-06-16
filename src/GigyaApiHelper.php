@@ -44,7 +44,7 @@ class GigyaApiHelper
     public function sendApiCall($method, $params)
     {
         $req = GSFactory::createGSRequestAppKey($this->apiKey, $this->key, $this->secret, $method,
-            GSFactory::createGSObjectFromArray($params), $this->dataCenter);
+          GSFactory::createGSObjectFromArray($params), $this->dataCenter);
 
         return $req->send();
     }
@@ -72,20 +72,20 @@ class GigyaApiHelper
     {
         if (null == $include) {
             $include
-                = "identities-active,identities-all,loginIDs,emails,profile,data,password,lastLoginLocation,rba,
+              = "identities-active,identities-all,loginIDs,emails,profile,data,password,lastLoginLocation,rba,
             regSource,irank";
         }
         if (null == $extraProfileFields) {
             $extraProfileFields
-                = "languages,address,phones,education,honors,publications,patents,certifications,
+              = "languages,address,phones,education,honors,publications,patents,certifications,
             professionalHeadline,bio,industry,specialties,work,skills,religion,politicalView,interestedIn,
             relationshipStatus,hometown,favorites,followersCount,followingCount,username,locale,verified,timezone,likes,
             samlData";
         }
         $params       = array(
-            "UID"                => $uid,
-            "include"            => $include,
-            "extraProfileFields" => $extraProfileFields
+          "UID"                => $uid,
+          "include"            => $include,
+          "extraProfileFields" => $extraProfileFields
         );
         $res          = $this->sendApiCall("accounts.getAccountInfo", $params);
         $dataArray    = $res->getData()->serialize();
@@ -135,7 +135,7 @@ class GigyaApiHelper
             $iv            = substr($strDec, 0, $iv_size);
             $text_only     = substr($strDec, $iv_size);
             $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,
-                $text_only, MCRYPT_MODE_CBC, $iv);
+              $text_only, MCRYPT_MODE_CBC, $iv);
 
             return $plaintext_dec;
         }
