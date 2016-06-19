@@ -425,10 +425,6 @@ class GigyaUser extends GigyaJsonObject
         return $emailLoginId;
     }
 
-    public function isRaasPrimaryUser($email) {
-        return in_array($email, $this->getLoginIDs()['emails']);
-    }
-
 }
 
 
