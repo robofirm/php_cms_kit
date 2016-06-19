@@ -49,8 +49,10 @@ class GigyaApiHelper
         return $req->send();
     }
 
-    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null, $params = array())
+    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null, $org_params = array())
     {
+
+        $params = $org_params;
         $params['UID'] = $uid;
         $params['UIDSignature'] = $uidSignature;
         $params['signatureTimestamp'] = $signatureTimestamp;
@@ -59,8 +61,7 @@ class GigyaApiHelper
         $sigTimestamp = $res->getData()->getString("signatureTimestamp", null);
         if (null !== $sig && null !== $sigTimestamp) {
             if (SigUtils::validateUserSignature($uid, $sigTimestamp, $this->secret, $sig)) {
-                $user = $this->fetchGigyaAccount($uid, $include, $extraProfileFields);
-
+                $user = $this->fetchGigyaAccount($uid, $include, $extraProfileFields, $org_params);
                 return $user;
             }
         }
@@ -68,7 +69,7 @@ class GigyaApiHelper
         return false;
     }
 
-    public function fetchGigyaAccount($uid, $include = null, $extraProfileFields = null)
+    public function fetchGigyaAccount($uid, $include = null, $extraProfileFields = null, $params = array())
     {
         if (null == $include) {
             $include
@@ -82,11 +83,10 @@ class GigyaApiHelper
             relationshipStatus,hometown,favorites,followersCount,followingCount,username,locale,verified,timezone,likes,
             samlData";
         }
-        $params       = array(
-          "UID"                => $uid,
-          "include"            => $include,
-          "extraProfileFields" => $extraProfileFields
-        );
+        $params['UID'] = $uid;
+        $params['include'] = $include;
+        $params['extraProfileFields'] = $extraProfileFields;
+
         $res          = $this->sendApiCall("accounts.getAccountInfo", $params);
         $dataArray    = $res->getData()->serialize();
         $profileArray = $dataArray['profile'];
