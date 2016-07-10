@@ -122,6 +122,12 @@ class GigyaApiHelper
         return false;
     }
 
+    public function queryDs($uid, $table, $fields)
+    {
+        
+
+    }
+
     // static
 
     static public function decrypt($str, $key = null)
