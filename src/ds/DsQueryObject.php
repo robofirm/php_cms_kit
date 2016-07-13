@@ -426,6 +426,9 @@ class DsQueryObject
 
     public function dsSearch()
     {
+        if (empty($this->query)) {
+            $this->buildQuery();
+        }
         $params = GSFactory::createGSObjectFromArray(
             array("query" => $this->query)
         );

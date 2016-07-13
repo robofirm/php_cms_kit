@@ -97,6 +97,28 @@ class GigyaApiHelper
         return $gigyaUser;
     }
 
+    /**
+     * @param string $uid
+     * @param array $profile
+     * @param array $data
+     *
+     * @throws GSApiException
+     */
+    public function updateGigyaAccount($uid, $profile = array(), $data = array())
+    {
+        if (empty($uid)) {
+            throw new \InvalidArgumentException("uid can not be empty");
+        }
+        $paramsArray['UID'] = $uid;
+        if (!empty($profile) && count($profile) > 0) {
+            $paramsArray['profile'] = $profile;
+        }
+        if (!empty($data) && count($data) > 0) {
+            $paramsArray['data'] = $data;
+        }
+        $this->sendApiCall("accounts.setAccountInfo", $paramsArray);
+    }
+
     public function getSiteSchema()
     {
         $params = GSFactory::createGSObjectFromArray(array("apiKey" => $this->apiKey));
