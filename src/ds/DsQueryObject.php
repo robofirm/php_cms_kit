@@ -6,14 +6,14 @@
  * Time: 9:37 AM
  */
 
-namespace ds;
+namespace Gigya\ds;
 
 
 use Gigya\sdk\GSFactory;
 
 class DsQueryObject
 {
-    const VALUE_REG_EXP = '.*\s(and|AND|or|OR)\s(where|WHERE)\s.*';
+    const VALUE_REG_EXP = '/.*\s(and|or)\s(where)\s.*/i';
     /**
      * @var string
      */
@@ -94,7 +94,8 @@ class DsQueryObject
             "=",
             ">=",
             "<=",
-            "!="
+            "!=",
+            "contains"
         );
     }
 
@@ -103,11 +104,23 @@ class DsQueryObject
      * @param string $filed
      * @param array  $terms
      *
+     * @param  string $andOr
+     *
      * @return $this
      */
-    public function addIn($filed, $terms)
+    public function addIn($filed, $terms, $andOr ="and")
     {
-        $this->ins[$filed] = $terms;
+
+        array_walk($terms, function (&$term, &$key) {
+            $term = '"'. trim($term, '"') . '"';
+        });
+        $ins = join(', ', $terms);
+        $in  = " in($ins)";
+        if ("or" == $andOr){
+            $this->ors[] = $filed . $in;
+        } else {
+            $this->ands[] = $filed . $in;
+        }
 
         return $this;
     }
@@ -147,9 +160,10 @@ class DsQueryObject
 
     private function sanitizeAndBuild($field, $op, $value)
     {
-        $value = filter_var(
-            $value, FILTER_VALIDATE_REGEXP, self::VALUE_REG_EXP
-        );
+        if (preg_match(self::VALUE_REG_EXP, $value)) {
+            $value = false;
+        }
+        $value = '"'. trim($value, '"') . '"';
         if (empty($field) || empty($op) || empty($value)) {
             throw new \InvalidArgumentException(
                 "parameters can not be empty or a bad value string"
@@ -483,13 +497,7 @@ class DsQueryObject
         $fields = $this->buildFieldsString();
         $q      = "SELECT " . $fields . " FROM " . $this->table;
         $where  = true;
-        if ( ! empty($this->ins)) {
-            $q .= " WHERE ";
-            $ins = join(", ", $this->ins);
-            $in  = "in(" . $ins . ")";
-            $q .= $in;
-            $where = false;
-        } elseif ( ! empty($this->ands)) {
+        if ( ! empty($this->ands)) {
             if ($where) {
                 $q .= " WHERE ";
                 $where = false;

@@ -6,7 +6,7 @@
  * Time: 2:49 PM
  */
 
-namespace ds;
+namespace Gigya\ds;
 
 
 class DsFactory
@@ -15,6 +15,7 @@ class DsFactory
     private $appKey;
     private $appSecret;
     private $siteSecret;
+    private $dataCenter;
 
     /**
      * DsFactory constructor.
@@ -24,24 +25,25 @@ class DsFactory
      * @param $appSecret
      * @param $siteSecret
      */
-    public function __construct($apiKey, $appKey, $appSecret, $siteSecret = null)
+    public function __construct($apiKey, $appKey, $appSecret, $dataCenter, $siteSecret = null)
     {
         $this->apiKey     = $apiKey;
         $this->appKey     = $appKey;
         $this->appSecret  = $appSecret;
         $this->siteSecret = $siteSecret;
+        $this->dataCenter = $dataCenter;
     }
 
     public function createDsqFromQuery($query)
     {
-        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->siteSecret);
+        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->dataCenter, $this->siteSecret);
         $dsQueryObj->setQuery($query);
         return $dsQueryObj;
     }
 
     public function createDsqFromFields($type, $fields)
     {
-        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->siteSecret);
+        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->dataCenter, $this->siteSecret);
         $dsQueryObj->setFields($fields);
         $dsQueryObj->setTable($type);
         return $dsQueryObj;
@@ -50,7 +52,7 @@ class DsFactory
 
     public function createDsqFromOid($oid, $type)
     {
-        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->siteSecret);
+        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->dataCenter, $this->siteSecret);
         $dsQueryObj->setOid($oid);
         $dsQueryObj->setTable($type);
         return $dsQueryObj;

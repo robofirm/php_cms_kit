@@ -6,7 +6,7 @@
  * Time: 1:19 PM
  */
 
-namespace ds;
+namespace Gigya\ds;
 
 
 class DsQueryException extends \Exception

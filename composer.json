@@ -16,6 +16,9 @@
     "autoload": {
       "psr-4" : {"Gigya\\": "src/"}
     },
+    "autoload-dev": {
+      "psr-4": {"Gigya\\Tests\\": "tests/"}
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "dev-1.0"
