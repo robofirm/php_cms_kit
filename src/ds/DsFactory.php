@@ -11,39 +11,30 @@ namespace Gigya\ds;
 
 class DsFactory
 {
-    private $apiKey;
-    private $appKey;
-    private $appSecret;
-    private $siteSecret;
-    private $dataCenter;
+    private $apiHelper;
+
 
     /**
      * DsFactory constructor.
      *
-     * @param $apiKey
-     * @param $appKey
-     * @param $appSecret
-     * @param $siteSecret
+     * @param $helper
+     *
      */
-    public function __construct($apiKey, $appKey, $appSecret, $dataCenter, $siteSecret = null)
+    public function __construct($helper)
     {
-        $this->apiKey     = $apiKey;
-        $this->appKey     = $appKey;
-        $this->appSecret  = $appSecret;
-        $this->siteSecret = $siteSecret;
-        $this->dataCenter = $dataCenter;
+        $this->apiHelper;
     }
 
     public function createDsqFromQuery($query)
     {
-        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->dataCenter, $this->siteSecret);
+        $dsQueryObj = new DsQueryObject($this->apiHelper);
         $dsQueryObj->setQuery($query);
         return $dsQueryObj;
     }
 
     public function createDsqFromFields($type, $fields)
     {
-        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->dataCenter, $this->siteSecret);
+        $dsQueryObj = new DsQueryObject($this->apiHelper);
         $dsQueryObj->setFields($fields);
         $dsQueryObj->setTable($type);
         return $dsQueryObj;
@@ -52,7 +43,7 @@ class DsFactory
 
     public function createDsqFromOid($oid, $type)
     {
-        $dsQueryObj = new DsQueryObject($this->apiKey, $this->appKey, $this->appSecret, $this->dataCenter, $this->siteSecret);
+        $dsQueryObj = new DsQueryObject($this->apiHelper);
         $dsQueryObj->setOid($oid);
         $dsQueryObj->setTable($type);
         return $dsQueryObj;

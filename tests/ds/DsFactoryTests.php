@@ -45,33 +45,12 @@ class DsFactoryTests extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($queryObj->getQuery());
     }
 
-    public function testConstructor()
-    {
-        $queryObj = $this->factory->createDsqFromQuery("some query string");
-        $obj  = new ReflectionObject($queryObj);
-        $p = $obj->getProperty("apiKey");
-        $p->setAccessible(true);
-        $this->assertEquals("apiKey", $p->getValue($queryObj));
-        $p = $obj->getProperty("appKey");
-        $p->setAccessible(true);
-        $this->assertEquals("appKey", $p->getValue($queryObj));
-        $p = $obj->getProperty("appSecret");
-        $p->setAccessible(true);
-        $this->assertEquals("appSecret", $p->getValue($queryObj));
-        $p = $obj->getProperty("dataCenter");
-        $p->setAccessible(true);
-        $this->assertEquals("us1.gigya.com", $p->getValue($queryObj));
-        $p = $obj->getProperty("siteSecret");
-        $p->setAccessible(true);
-        $this->assertEquals(null, $p->getValue($queryObj));
-
-
-    }
 
 
     protected function setUp()
     {
-        $this->factory = new DsFactory("apiKey", "appKey", "appSecret", "us1.gigya.com");
+        $apiHelper = new \Gigya\GigyaApiHelper("apiKey", "appKey", "appSecret", "us1.gigya.com");
+        $this->factory = new DsFactory($apiHelper);
     }
 
     protected static function getMethod($name)

@@ -33,7 +33,13 @@ class GigyaApiHelper
      */
     public function __construct($apiKey, $key, $secret, $dataCenter)
     {
-        $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
+
+        $defaultConf = @file_get_contents(self::DEFAULT_CONFIG_FILE_PATH);
+        if (!$defaultConf) {
+            $confArray = array();
+        } else {
+            $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
+        }
         $this->key    = !empty($key) ? $key : $confArray['appKey'];
         $this->secret = !empty($secret) ? self::decrypt($secret) : self::decrypt($confArray['appSecret']);
         $this->apiKey = !empty($apiKey) ? $apiKey : $confArray['apiKey'];

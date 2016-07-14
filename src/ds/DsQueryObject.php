@@ -9,11 +9,12 @@
 namespace Gigya\ds;
 
 
+use Gigya\GigyaApiHelper;
 use Gigya\sdk\GSFactory;
 
 class DsQueryObject
 {
-    const VALUE_REG_EXP = '/.*\s(and|or)\s(where)\s.*/i';
+    const VALUE_REG_EXP = '/.*(and|or|where)\s.*/i';
     /**
      * @var string
      */
@@ -49,74 +50,53 @@ class DsQueryObject
     /**
      * @var string
      */
-    private $appKey;
-    /**
-     * @var string
-     */
-    private $appSecret;
-    /**
-     * @var string
-     */
-    private $dataCenter;
-    /**
-     * @var null|string
-     */
-    private $siteSecret;
-    /**
-     * @var string
-     */
-    private $apiKey;
     /**
      * @var string
      */
     private $uid = null;
+    /**
+     * @var GigyaApiHelper
+     */
+    private $apiHelper;
 
     /**
      * DsQueryObject constructor.
      *
-     * @param string $apiKey
-     * @param string $appKey
-     * @param string $appSecret
-     * @param string $dataCenter
-     * @param string $siteSecret
+     * @param GigyaApiHelper $helper
+     *
      */
-    public function __construct($apiKey, $appKey, $appSecret, $dataCenter,
-        $siteSecret = null
-    ) {
-        $this->apiKey     = $apiKey;
-        $this->appKey     = $appKey;
-        $this->appSecret  = $appSecret;
-        $this->dataCenter = $dataCenter;
-        $this->siteSecret = $siteSecret;
-        $this->operators  = array(
-            "<",
-            ">",
-            "=",
-            ">=",
-            "<=",
-            "!=",
-            "contains"
-        );
+    public function __construct($helper)
+    {
+        $this->apiHelper = $helper;
+        $this->operators  = array("<", ">", "=", ">=", "<=", "!=", "contains", "not contains");
     }
 
+    public function addWhere($field, $op, $value, $valueType = "string")
+    {
+        $this->addAnd($field, $op, $value, $valueType);
+        return $this;
+
+    }
 
     /**
-     * @param string $filed
-     * @param array  $terms
+     * @param string  $filed
+     * @param array   $terms
      *
      * @param  string $andOr
      *
      * @return $this
      */
-    public function addIn($filed, $terms, $andOr ="and")
+    public function addIn($filed, $terms, $andOr = "and")
     {
 
-        array_walk($terms, function (&$term, &$key) {
-            $term = '"'. trim($term, '"') . '"';
-        });
+        array_walk(
+            $terms, function (&$term, &$key) {
+            $term = '"' . trim($term, '"') . '"';
+        }
+        );
         $ins = join(', ', $terms);
         $in  = " in($ins)";
-        if ("or" == $andOr){
+        if ("or" == $andOr) {
             $this->ors[] = $filed . $in;
         } else {
             $this->ands[] = $filed . $in;
@@ -151,20 +131,24 @@ class DsQueryObject
      * @return $this
      * @throws DsQueryException
      */
-    public function addOr($field, $op, $value)
+    public function addOr($field, $op, $value, $valueType = "string")
     {
-        $this->ors[] = $this->sanitizeAndBuild($field, $op, $value);
+        $this->ors[] = $this->sanitizeAndBuild($field, $op, $value, $valueType);
 
         return $this;
     }
 
-    private function sanitizeAndBuild($field, $op, $value)
+    private function sanitizeAndBuild($field, $op, $value, $valueType = "string")
     {
         if (preg_match(self::VALUE_REG_EXP, $value)) {
-            $value = false;
+            throw new \InvalidArgumentException("bad value string");
         }
-        $value = '"'. trim($value, '"') . '"';
-        if (empty($field) || empty($op) || empty($value)) {
+        if ("string" == $valueType) {
+            $value = '"' . trim($value, '"') . '"';
+        } elseif ("bool" == $valueType) {
+            $value = ($value) ? 'true' : 'false';
+        }
+        if (empty($field) || empty($op) || strlen(trim($value)) === 0) {
             throw new \InvalidArgumentException(
                 "parameters can not be empty or a bad value string"
             );
@@ -173,8 +157,7 @@ class DsQueryObject
             throw new DsQueryException($op . " is not a valid operator");
         }
 
-        return filter_var($field, FILTER_SANITIZE_STRING) . " " . $op
-        . " " . $value;
+        return filter_var($field, FILTER_SANITIZE_STRING) . " " . $op . " " . $value;
     }
 
     /**
@@ -184,9 +167,9 @@ class DsQueryObject
      *
      * @return $this
      */
-    public function addAnd($field, $op, $value)
+    public function addAnd($field, $op, $value, $valueType = "string")
     {
-        $this->ands[] = $this->sanitizeAndBuild($field, $op, $value);
+        $this->ands[] = $this->sanitizeAndBuild($field, $op, $value, $valueType);
 
         return $this;
     }
@@ -349,55 +332,7 @@ class DsQueryObject
     }
 
     /**
-     * @param string $appKey
-     *
-     * @return $this
-     */
-    public function setAppKey($appKey)
-    {
-        $this->appKey = $appKey;
-
-        return $this;
-    }
-
-    /**
-     * @param string $appSecret
-     *
-     * @return $this
-     */
-    public function setAppSecret($appSecret)
-    {
-        $this->appSecret = $appSecret;
-
-        return $this;
-    }
-
-    /**
-     * @param string $dataCenter
-     *
-     * @return $this
-     */
-    public function setDataCenter($dataCenter)
-    {
-        $this->dataCenter = $dataCenter;
-
-        return $this;
-    }
-
-    /**
-     * @param string $siteSecret
-     *
-     * @return $this
-     */
-    public function setSiteSecret($siteSecret)
-    {
-        $this->siteSecret = $siteSecret;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getUid()
     {
@@ -405,7 +340,7 @@ class DsQueryObject
     }
 
     /**
-     * @param mixed $uid
+     * @param string $uid
      */
     public function setUid($uid)
     {
@@ -421,21 +356,18 @@ class DsQueryObject
         if (count($this->fields) > 0) {
             $paramsArray['fields'] = $this->buildFieldsString();
         }
-        $params = GSFactory::createGSObjectFromArray($paramsArray);
-        if (null === $this->siteSecret) {
-            $req = GSFactory::createGsRequest(
-                $this->apiKey, $this->siteSecret, "ds.get", $params,
-                $this->dataCenter
-            );
-        } else {
-            $req = GSFactory::createGSRequestAppKey(
-                $this->apiKey, $this->appKey, $this->appSecret, "ds.get",
-                $this->dataCenter
-            );
-        }
-        $res = $req->send();
-
+        $res = $this->apiHelper->sendApiCall("ds.get", $paramsArray);
         return $res->getData();
+    }
+
+    private function buildFieldsString()
+    {
+        return in_array("*", $this->fields)
+            ? "*"
+            : join(
+                ", ", $this->fields
+            );
+
     }
 
     public function dsSearch()
@@ -443,50 +375,8 @@ class DsQueryObject
         if (empty($this->query)) {
             $this->buildQuery();
         }
-        $params = GSFactory::createGSObjectFromArray(
-            array("query" => $this->query)
-        );
-        if (null === $this->siteSecret) {
-            $req = GSFactory::createGsRequest(
-                $this->apiKey, $this->siteSecret, "ds.search", $params,
-                $this->dataCenter
-            );
-        } else {
-            $req = GSFactory::createGSRequestAppKey(
-                $this->apiKey, $this->appKey, $this->appSecret, "ds.search",
-                $this->dataCenter
-            );
-        }
-        $res = $req->send();
-
+        $res = $this->apiHelper->sendApiCall("ds.search", array("query" => $this->query));
         return $res->getData();
-    }
-
-    public function dsDelete()
-    {
-
-        $paramsArray = array("oid" => $this->oid, "type" => $this->table);
-        if ( ! empty($this->uid)) {
-            $paramsArray['UID'] = $this->uid;
-        }
-        if (count($this->fields) > 0) {
-            $paramsArray['fields'] = $this->buildFieldsString();
-        }
-        $params = GSFactory::createGSObjectFromArray(
-            array("oid" => $this->oid)
-        );
-        if (null === $this->siteSecret) {
-            $req = GSFactory::createGsRequest(
-                $this->apiKey, $this->siteSecret, "ds.delete", $params,
-                $this->dataCenter
-            );
-        } else {
-            $req = GSFactory::createGSRequestAppKey(
-                $this->apiKey, $this->appKey, $this->appSecret, "ds.delete",
-                $this->dataCenter
-            );
-        }
-        $req->send();
     }
 
     protected function buildQuery()
@@ -506,7 +396,8 @@ class DsQueryObject
             }
             $ands = join(" AND ", $this->ands);
             $q .= $ands;
-        } elseif ( ! empty($this->ors)) {
+        }
+        if ( ! empty($this->ors)) {
             if ($where) {
                 $q .= " WHERE ";
                 $where = false;
@@ -519,7 +410,7 @@ class DsQueryObject
         $this->query = $q;
     }
 
-    /**
+     /**
      * @return bool
      */
     private function checkAllRequired()
@@ -527,14 +418,17 @@ class DsQueryObject
         return ! (empty($this->fields) && empty($this->table));
     }
 
-    private function buildFieldsString()
+    public function dsDelete()
     {
-        return in_array("*", $this->fields)
-            ? "*"
-            : join(
-                ", ", $this->fields
-            );
 
+        $paramsArray = array("oid" => $this->oid, "type" => $this->table);
+        if ( ! empty($this->uid)) {
+            $paramsArray['UID'] = $this->uid;
+        }
+        if (count($this->fields) > 0) {
+            $paramsArray['fields'] = $this->buildFieldsString();
+        }
+        $this->apiHelper->sendApiCall("ds.delete", $paramsArray);
     }
 
 
