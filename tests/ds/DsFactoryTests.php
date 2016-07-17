@@ -37,6 +37,8 @@ class DsFactoryTests extends \PHPUnit_Framework_TestCase
 
     }
 
+
+
     public function testFromOid()
     {
         $queryObj = $this->factory->createDsqFromOid("testOid", "test");
@@ -45,6 +47,18 @@ class DsFactoryTests extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($queryObj->getQuery());
     }
 
+    public function testFromWhere()
+    {
+        $fields   = array("test", "foo", "bar", "baz");
+        $type     = "example";
+        $queryObj = $this->factory->createDsqFromWhere($type, $fields, "foo", ">", 1, "int");
+        $build = self::getMethod('buildQuery');
+        $build->invoke($queryObj);
+        $qry = $queryObj->getQuery();
+        $expectedQry = "SELECT test, foo, bar, baz FROM example WHERE foo > 1";
+        $this->assertEquals($expectedQry, $qry);
+
+    }
 
 
     protected function setUp()

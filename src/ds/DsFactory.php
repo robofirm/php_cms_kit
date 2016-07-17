@@ -41,6 +41,16 @@ class DsFactory
 
     }
 
+    public function createDsqFromWhere($type, $fields, $where, $op, $value, $valueType = "string")
+    {
+        $dsQueryObj = new DsQueryObject($this->apiHelper);
+        $dsQueryObj->setFields($fields);
+        $dsQueryObj->setTable($type);
+        $dsQueryObj->addWhere($where, $op, $value, $valueType);
+        return $dsQueryObj;
+
+    }
+
     public function createDsqFromOid($oid, $type)
     {
         $dsQueryObj = new DsQueryObject($this->apiHelper);
