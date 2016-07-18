@@ -14,12 +14,11 @@ use Gigya\user\GigyaProfile;
 class GigyaUserFactory
 {
     static function createGigyaUserFromJson($json) {
-        $gigyaArray = json_decode($json);
-        return self::createGigyaUserFromArray($gigyaArray);
+        return new GigyaUser($json);
     }
 
     static function createGigyaUserFromArray($array) {
-        $gigyaUser = new GigyaUser();
+        $gigyaUser = new GigyaUser(null);
         foreach ($array as $key => $value) {
             $gigyaUser->__set($key, $value);
         }
@@ -35,7 +34,7 @@ class GigyaUserFactory
     }
     
     static function createGigyaProfileFromArray($array) {
-        $gigyaProfile = new GigyaProfile();
+        $gigyaProfile = new GigyaProfile(null);
         foreach ($array as $key => $value) {
             $gigyaProfile->__set($key, $value);
         }

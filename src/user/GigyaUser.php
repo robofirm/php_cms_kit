@@ -425,8 +425,24 @@ class GigyaUser extends GigyaJsonObject
         return $emailLoginId;
     }
 
-    public function isRaasPrimaryUser($email) {
-        return in_array($email, $this->getLoginIDs()['emails']);
+    public function getNestedValue($path)
+    {
+        $keys     = explode(".", $path);
+        $section = array_shift($keys);
+        $accArray = $this->__get('get' . ucfirst($section));
+        foreach ($keys as $key) {
+            if (isset($accArray[$key])) {
+                $accArray = $accArray[$key];
+            } else {
+                $accArray = null;
+            }
+        }
+        if (is_array($accArray) || is_object($accArray)) {
+            $accArray = json_encode($accArray, JSON_UNESCAPED_SLASHES);
+        }
+
+        return $accArray;
+
     }
 
 }

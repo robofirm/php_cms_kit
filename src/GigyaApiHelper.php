@@ -33,7 +33,13 @@ class GigyaApiHelper
      */
     public function __construct($apiKey, $key, $secret, $dataCenter)
     {
-        $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
+
+        $defaultConf = @file_get_contents(self::DEFAULT_CONFIG_FILE_PATH);
+        if (!$defaultConf) {
+            $confArray = array();
+        } else {
+            $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
+        }
         $this->key    = !empty($key) ? $key : $confArray['appKey'];
         $this->secret = !empty($secret) ? self::decrypt($secret) : self::decrypt($confArray['appSecret']);
         $this->apiKey = !empty($apiKey) ? $apiKey : $confArray['apiKey'];
@@ -44,25 +50,24 @@ class GigyaApiHelper
     public function sendApiCall($method, $params)
     {
         $req = GSFactory::createGSRequestAppKey($this->apiKey, $this->key, $this->secret, $method,
-            GSFactory::createGSObjectFromArray($params));
+          GSFactory::createGSObjectFromArray($params), $this->dataCenter);
 
         return $req->send();
     }
 
-    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null)
+    public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null, $org_params = array())
     {
-        $params       = array(
-            "UID"                => $uid,
-            "UIDSignature"       => $uidSignature,
-            "signatureTimestamp" => $signatureTimestamp
-        );
+
+        $params = $org_params;
+        $params['UID'] = $uid;
+        $params['UIDSignature'] = $uidSignature;
+        $params['signatureTimestamp'] = $signatureTimestamp;
         $res          = $this->sendApiCall("socialize.exchangeUIDSignature", $params);
         $sig          = $res->getData()->getString("UIDSignature", null);
         $sigTimestamp = $res->getData()->getString("signatureTimestamp", null);
         if (null !== $sig && null !== $sigTimestamp) {
             if (SigUtils::validateUserSignature($uid, $sigTimestamp, $this->secret, $sig)) {
-                $user = $this->fetchGigyaAccount($uid);
-
+                $user = $this->fetchGigyaAccount($uid, $include, $extraProfileFields, $org_params);
                 return $user;
             }
         }
@@ -70,25 +75,24 @@ class GigyaApiHelper
         return false;
     }
 
-    public function fetchGigyaAccount($uid, $include = null, $extraProfileFields = null)
+    public function fetchGigyaAccount($uid, $include = null, $extraProfileFields = null, $params = array())
     {
         if (null == $include) {
             $include
-                = "identities-active,identities-all,loginIDs,emails,profile,data,password,lastLoginLocation,rba,
+              = "identities-active,identities-all,loginIDs,emails,profile,data,password,lastLoginLocation,rba,
             regSource,irank";
         }
         if (null == $extraProfileFields) {
             $extraProfileFields
-                = "languages,address,phones,education,honors,publications,patents,certifications,
+              = "languages,address,phones,education,honors,publications,patents,certifications,
             professionalHeadline,bio,industry,specialties,work,skills,religion,politicalView,interestedIn,
             relationshipStatus,hometown,favorites,followersCount,followingCount,username,locale,verified,timezone,likes,
             samlData";
         }
-        $params       = array(
-            "UID"                => $uid,
-            "include"            => $include,
-            "extraProfileFields" => $extraProfileFields
-        );
+        $params['UID'] = $uid;
+        $params['include'] = $include;
+        $params['extraProfileFields'] = $extraProfileFields;
+
         $res          = $this->sendApiCall("accounts.getAccountInfo", $params);
         $dataArray    = $res->getData()->serialize();
         $profileArray = $dataArray['profile'];
@@ -97,6 +101,28 @@ class GigyaApiHelper
         $gigyaUser->setProfile($gigyaProfile);
 
         return $gigyaUser;
+    }
+
+    /**
+     * @param string $uid
+     * @param array $profile
+     * @param array $data
+     *
+     * @throws GSApiException
+     */
+    public function updateGigyaAccount($uid, $profile = array(), $data = array())
+    {
+        if (empty($uid)) {
+            throw new \InvalidArgumentException("uid can not be empty");
+        }
+        $paramsArray['UID'] = $uid;
+        if (!empty($profile) && count($profile) > 0) {
+            $paramsArray['profile'] = $profile;
+        }
+        if (!empty($data) && count($data) > 0) {
+            $paramsArray['data'] = $data;
+        }
+        $this->sendApiCall("accounts.setAccountInfo", $paramsArray);
     }
 
     public function getSiteSchema()
@@ -124,6 +150,12 @@ class GigyaApiHelper
         return false;
     }
 
+    public function queryDs($uid, $table, $fields)
+    {
+        
+
+    }
+
     // static
 
     static public function decrypt($str, $key = null)
@@ -137,9 +169,9 @@ class GigyaApiHelper
             $iv            = substr($strDec, 0, $iv_size);
             $text_only     = substr($strDec, $iv_size);
             $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,
-                $text_only, MCRYPT_MODE_CBC, $iv);
+              $text_only, MCRYPT_MODE_CBC, $iv);
 
-            return substr($plaintext_dec, 0, strpos($plaintext_dec, "\0"));
+            return $plaintext_dec;
         }
         return $str;
     }
