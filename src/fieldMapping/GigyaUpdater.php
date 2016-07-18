@@ -8,7 +8,7 @@
  */
 
 
-namespace fieldMapping;
+namespace Gigya\fieldMapping;
 
 use Gigya\GigyaApiHelper;
 
@@ -48,21 +48,20 @@ abstract class GigyaUpdater
     /**
      * GigyaUpdater constructor.
      */
-    public function __construct($cmsValuesArray, $gigyaUid, $path)
+    public function __construct($cmsValuesArray, $gigyaUid, $path, $apiHelper)
     {
         $this->cmsArray = $cmsValuesArray;
         $this->gigyaUid = $gigyaUid;
         $this->path     = (string) $path;
         $this->mapped   = ! empty($this->path);
+        $this->apiHelper = $apiHelper;
 
     }
 
     public function updateGigya()
     {
         $this->retrieveFieldMappings();
-        if (method_exists($this, 'callCmsHook')) {
-            $this->callCmsHook();
-        }
+        $this->callCmsHook();
         $this->gigyaArray = $this->createGigyaArray();
         $this->callSetAccountInfo();
     }
@@ -129,17 +128,40 @@ abstract class GigyaUpdater
      */
     abstract protected function callCmsHook();
 
+    /**
+     * Puts the field mapping configuration in cache.
+     * on error throws FieldMappingException
+     *
+     * @param Conf $mappingConf
+     *
+     * @throws FieldMappingException
+     */
+    abstract protected function setMappingCache($mappingConf);
+
+    /**
+     * Retrieves the field mapping object from cache.
+     * if no mapping is found or there is an error returns false.
+     *
+     * @return mixed
+     */
+    abstract protected function getMappingFromCache();
+
 
 
     protected function retrieveFieldMappings()
     {
-        $mappingJson = file_get_contents($this->path);
-        if (false === $mappingJson) {
-            $err     = error_get_last();
-            $message = "Could not retrieve field mapping configuration file. message was:" . $err['message'];
-            throw new \Exception("$message");
+
+        $conf = $this->getMappingFromCache();
+        if (false === $conf) {
+            $mappingJson = file_get_contents($this->path);
+            if (false === $mappingJson) {
+                $err     = error_get_last();
+                $message = "Could not retrieve field mapping configuration file. message was:" . $err['message'];
+                throw new \Exception("$message");
+            }
+            $conf = new Conf($mappingJson);
+            $this->setMappingCache($conf);
         }
-        $conf              = new Conf($mappingJson);
         $this->cmsMappings = $conf->getCmsKeyed();
     }
 

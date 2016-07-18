@@ -6,7 +6,7 @@
  * Date: 5/26/16
  * Time: 9:06 AM
  */
-namespace fieldMapping;
+namespace Gigya\fieldMapping;
 
 class Conf
 {
@@ -20,33 +20,6 @@ class Conf
         $this->mappingConf = json_decode($json, true);
     }
 
-    protected function buildKeyedArrays($array)
-    {
-        $cmsKeyedArray = array();
-        $gigyaKeyedArray = array();
-        foreach ($array as $confItem) {
-            $cmsKey = $confItem['cmsName'];
-            $gigyaKey = $confItem['gigyaName'];
-            $direction = $confItem['direction'];
-            $conf = new Gigya_Social_Helper_FieldMapping_ConfItem($confItem);
-            switch ($direction) {
-                case "g2cms" :
-                    $gigyaKeyedArray[$gigyaKey][] = $conf;
-                    break;
-                case "cms2g":
-                    $cmsKeyedArray[$cmsKey][] = $conf;
-                    break;
-                default:
-                    $gigyaKeyedArray[$gigyaKey][] = $conf;
-                    $cmsKeyedArray[$cmsKey][] = $conf;
-                    break;
-            }
-        }
-        $this->gigyaKeyed = $gigyaKeyedArray;
-        $this->cmsKeyed   = $cmsKeyedArray;
-    }
-
-
     /**
      * @return array
      */
@@ -56,6 +29,32 @@ class Conf
             $this->buildKeyedArrays($this->mappingConf);
         }
         return $this->cmsKeyed;
+    }
+
+    protected function buildKeyedArrays($array)
+    {
+        $cmsKeyedArray = array();
+        $gigyaKeyedArray = array();
+        foreach ($array as $confItem) {
+            $cmsKey = $confItem['cmsName'];
+            $gigyaKey = $confItem['gigyaName'];
+            $direction = $confItem['direction'];
+            $conf = new ConfItem($confItem);
+            switch ($direction) {
+                case "cms2g":
+                    $cmsKeyedArray[$cmsKey][] = $conf;
+                    break;
+                case "both":
+                    $gigyaKeyedArray[$gigyaKey][] = $conf;
+                    $cmsKeyedArray[$cmsKey][] = $conf;
+                    break;
+                default:
+                    $gigyaKeyedArray[$gigyaKey][] = $conf;
+                    break;
+            }
+        }
+        $this->gigyaKeyed = $gigyaKeyedArray;
+        $this->cmsKeyed   = $cmsKeyedArray;
     }
 
     /**

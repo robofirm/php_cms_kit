@@ -1,14 +1,17 @@
 <?php
 
 /**
+ *
  * Created by PhpStorm.
  * User: Yaniv Aran-Shamir
  * Date: 5/29/16
  * Time: 4:47 PM
  */
-use fieldMapping\CmsUpdaterException;
-use fieldMapping\Conf;
-use fieldMapping\ConfItem;
+
+namespace Gigya\fieldMapping;
+use Gigya\fieldMapping\CmsUpdaterException;
+use Gigya\fieldMapping\Conf;
+use Gigya\fieldMapping\ConfItem;
 
 abstract class CmsUpdater
 {
@@ -36,7 +39,7 @@ abstract class CmsUpdater
     /**
      * @param mixed $cmsAccount
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function updateCmsAccount(&$cmsAccount)
     {
@@ -140,7 +143,7 @@ abstract class CmsUpdater
     }
 
     /**
-     * @return array
+     * @return \Gigya\user\GigyaUser
      */
     public function getGigyaUser()
     {

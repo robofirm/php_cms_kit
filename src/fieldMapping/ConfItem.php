@@ -7,7 +7,9 @@
  * Time: 10:11 AM
  */
 
-namespace fieldMapping;
+namespace Gigya\fieldMapping;
+
+use Gigya\sdk\GigyaJsonObject;
 
 class ConfItem
 {
@@ -34,7 +36,12 @@ class ConfItem
     protected $direction = "g2cms";
 
     /**
-     * Gigya_Social_Helper_FieldMapping_ConfItem constructor.
+     * @var array
+     */
+    protected $custom;
+
+    /**
+     * ConfItem constructor.
      */
     public function __construct($array)
     {
@@ -106,6 +113,23 @@ class ConfItem
     {
         $this->gigyaType = $gigyaType;
     }
+
+    /**
+     * @return array
+     */
+    public function getCustom()
+    {
+        return $this->custom;
+    }
+
+    /**
+     * @param GigyaJsonObject $custom
+     */
+    public function setCustom($custom)
+    {
+        $this->custom = $custom;
+    }
+
 
 
 }

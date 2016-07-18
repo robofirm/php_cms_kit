@@ -11,6 +11,21 @@ namespace Gigya\sdk;
 
 abstract class GigyaJsonObject
 {
+
+
+    /**
+     * GigyaJsonObject constructor.
+     */
+    public function __construct($json)
+    {
+        if (null != $json) {
+            $jsonArray = json_decode($json, true);
+            foreach ($jsonArray as $key => $value) {
+                $this->__set($key, $value);
+            }
+        }
+    }
+
     public function __call($name, $arguments)
     {
         if (strpos($name, 'get') === 0) {
@@ -30,7 +45,7 @@ abstract class GigyaJsonObject
     public function __get($name)
     {
         $getter = $name;
-        $prop = substr($name, 3);
+        $prop = lcfirst(substr($name, 3));
         if (method_exists($this, $getter)) {
             return call_user_func(array($this, $getter));
         }
