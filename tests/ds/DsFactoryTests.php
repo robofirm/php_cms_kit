@@ -6,7 +6,7 @@
  * Time: 5:17 PM
  */
 
-use Gigya\ds\DsFactory;
+use Gigya\CmsStarterKit\ds\DsFactory;
 
 
 class DsFactoryTests extends \PHPUnit_Framework_TestCase

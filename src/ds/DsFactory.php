@@ -6,7 +6,7 @@
  * Time: 2:49 PM
  */
 
-namespace Gigya\ds;
+namespace Gigya\CmsStarterKit\ds;
 
 
 class DsFactory

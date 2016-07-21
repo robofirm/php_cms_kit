@@ -6,11 +6,11 @@
  * Time: 1:35 PM
  */
 
-namespace Gigya\ds;
+namespace Gigya\CmsStarterKit\ds;
 
 
-use Gigya\GigyaApiHelper;
-use Gigya\sdk\GSResponse;
+use Gigya\CmsStarterKit\GigyaApiHelper;
+use Gigya\CmsStarterKit\sdk\GSResponse;
 
 class TestDsQueryObject extends \PHPUnit_Framework_TestCase
 {

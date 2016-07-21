@@ -1,6 +1,6 @@
 <?php
 
-namespace Gigya\sdk;
+namespace Gigya\CmsStarterKit\sdk;
 /**
  * Created by PhpStorm.
  * User: Yaniv Aran-Shamir

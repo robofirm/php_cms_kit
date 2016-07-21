@@ -6,11 +6,11 @@
  * Time: 1:11 PM
  */
 
-namespace Gigya\user;
+namespace Gigya\CmsStarterKit\user;
 
 
-use Gigya\sdk\GigyaJsonObject;
-use Gigya\user\GigyaProfile;
+use Gigya\CmsStarterKit\sdk\GigyaJsonObject;
+use Gigya\CmsStarterKit\user\GigyaProfile;
 
 class GigyaUser extends GigyaJsonObject
 {

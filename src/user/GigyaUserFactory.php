@@ -6,10 +6,10 @@
  * Time: 5:09 PM
  */
 
-namespace Gigya\user;
+namespace Gigya\CmsStarterKit\user;
 
 
-use Gigya\user\GigyaProfile;
+use Gigya\CmsStarterKit\user\GigyaProfile;
 
 class GigyaUserFactory
 {

@@ -6,7 +6,7 @@
  * Time: 8:50 PM
  */
 
-namespace Gigya\sdk;
+namespace Gigya\CmsStarterKit\sdk;
 
 
 use Exception;

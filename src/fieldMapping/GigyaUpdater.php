@@ -8,9 +8,9 @@
  */
 
 
-namespace Gigya\fieldMapping;
+namespace Gigya\CmsStarterKit\fieldMapping;
 
-use Gigya\GigyaApiHelper;
+use Gigya\CmsStarterKit\GigyaApiHelper;
 
 abstract class GigyaUpdater
 {

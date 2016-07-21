@@ -6,7 +6,7 @@
  * Time: 8:53 PM
  */
 
-namespace Gigya\sdk;
+namespace Gigya\CmsStarterKit\sdk;
 
 
 class GSObject

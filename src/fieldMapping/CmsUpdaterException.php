@@ -6,7 +6,7 @@
  * Time: 9:31 AM
  */
 
-namespace Gigya\fieldMapping;
+namespace Gigya\CmsStarterKit\fieldMapping;
 
 
 class CmsUpdaterException extends \Exception

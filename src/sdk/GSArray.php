@@ -6,7 +6,7 @@
  * Time: 8:54 PM
  */
 
-namespace Gigya\sdk;
+namespace Gigya\CmsStarterKit\sdk;
 
 
 class GSArray

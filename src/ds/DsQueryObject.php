@@ -6,11 +6,11 @@
  * Time: 9:37 AM
  */
 
-namespace Gigya\ds;
+namespace Gigya\CmsStarterKit\ds;
 
 
-use Gigya\GigyaApiHelper;
-use Gigya\sdk\GSFactory;
+use Gigya\CmsStarterKit\GigyaApiHelper;
+use Gigya\CmsStarterKit\sdk\GSFactory;
 
 class DsQueryObject
 {

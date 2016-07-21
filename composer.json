@@ -14,10 +14,10 @@
     ],
     "require": {},
     "autoload": {
-      "psr-4" : {"Gigya\\": "src/"}
+      "psr-4" : {"Gigya\\CmsStarterKit\\": "src/"}
     },
     "autoload-dev": {
-      "psr-4": {"Gigya\\Tests\\": "tests/"}
+      "psr-4": {"Gigya\\CmsStarterKit\\Tests\\": "tests/"}
     },
     "extra": {
         "branch-alias": {

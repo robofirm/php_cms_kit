@@ -8,10 +8,10 @@
  * Time: 4:47 PM
  */
 
-namespace Gigya\fieldMapping;
-use Gigya\fieldMapping\CmsUpdaterException;
-use Gigya\fieldMapping\Conf;
-use Gigya\fieldMapping\ConfItem;
+namespace Gigya\CmsStarterKit\fieldMapping;
+use Gigya\CmsStarterKit\fieldMapping\CmsUpdaterException;
+use Gigya\CmsStarterKit\fieldMapping\Conf;
+use Gigya\CmsStarterKit\fieldMapping\ConfItem;
 
 abstract class CmsUpdater
 {

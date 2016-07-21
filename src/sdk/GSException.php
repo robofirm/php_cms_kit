@@ -6,7 +6,7 @@
  * Time: 8:48 PM
  */
 
-namespace Gigya\sdk;
+namespace Gigya\CmsStarterKit\sdk;
 
 
 class GSException extends  \Exception
