@@ -55,9 +55,19 @@ class GigyaApiHelper
         return $req->send();
     }
 
+    /**
+     * Validate and get gigya user
+     * @param $uid
+     * @param $uidSignature
+     * @param $signatureTimestamp
+     * @param null $include
+     * @param null $extraProfileFields
+     * @param array $org_params
+     *
+     * @return bool|user\GigyaUser
+     */
     public function validateUid($uid, $uidSignature, $signatureTimestamp, $include = null, $extraProfileFields = null, $org_params = array())
     {
-
         $params = $org_params;
         $params['UID'] = $uid;
         $params['UIDSignature'] = $uidSignature;

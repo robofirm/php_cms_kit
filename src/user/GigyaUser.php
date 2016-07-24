@@ -416,10 +416,14 @@ class GigyaUser extends GigyaJsonObject
         $this->data = $data;
     }
 
+    /**
+     * @return string emailLoginId / null
+     */
     public function getGigyaLoginId() {
         $loginIds = $this->getLoginIDs();
-        $emailLoginId = $loginIds['emails'][0];
-        if (empty($emailLoginId)) {
+        if (!empty($loginIds['emails'][0])) {
+            $emailLoginId = $loginIds['emails'][0];
+        } else {
             $emailLoginId = $this->getProfile()->getEmail();
         }
         return $emailLoginId;
