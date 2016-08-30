@@ -362,12 +362,14 @@ class DsQueryObject
 
     private function buildFieldsString()
     {
-        return in_array("*", $this->fields)
-            ? "*"
-            : join(
-                ", ", $this->fields
-            );
-
+      if (in_array("*", $this->fields)) {
+        return '*';
+      }
+      $queryFields = array();
+      foreach ($this->fields as $field) {
+        $queryFields[] = 'data.' . $field;
+      }
+      return join(", ", $queryFields);
     }
 
     public function dsSearch()
