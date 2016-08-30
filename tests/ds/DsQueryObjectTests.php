@@ -28,14 +28,14 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build->invoke($this->queryObject);
         $qry = $this->queryObject->getQuery();
         $expectedQry
-             = 'SELECT field1, field2 FROM test WHERE field1 in("term1", "term2") AND field2 in("term3", "term4")';
+             = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 in("term1", "term2") AND data.field2 in("term3", "term4")';
         $this->assertEquals($expectedQry, $qry);
 
     }
 
     protected static function getMethod($name)
     {
-        $class  = new \ReflectionClass('Gigya\ds\DsQueryObject');
+        $class  = new \ReflectionClass(DsQueryObject::class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
 
@@ -50,7 +50,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build->invoke($this->queryObject);
         $qry = $this->queryObject->getQuery();
         $expectedQry
-             = 'SELECT field1, field2 FROM test WHERE field1 in("term1", "term2") OR field2 in("term3", "term4")';
+             = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 in("term1", "term2") OR data.field2 in("term3", "term4")';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -61,7 +61,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build = self::getMethod('buildQuery');
         $build->invoke($this->queryObject);
         $qry         = $this->queryObject->getQuery();
-        $expectedQry = 'SELECT field1, field2 FROM test WHERE field1 contains "term1" AND field2 contains "term2"';
+        $expectedQry = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 contains "term1" AND data.field2 contains "term2"';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -72,7 +72,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build = self::getMethod('buildQuery');
         $build->invoke($this->queryObject);
         $qry         = $this->queryObject->getQuery();
-        $expectedQry = 'SELECT field1, field2 FROM test WHERE field1 contains "term1" OR field2 contains "term2"';
+        $expectedQry = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 contains "term1" OR data.field2 contains "term2"';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -84,7 +84,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build->invoke($this->queryObject);
         $qry = $this->queryObject->getQuery();
         $expectedQry
-             = 'SELECT field1, field2 FROM test WHERE field1 not contains "term1" AND field2 not contains "term2"';
+             = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 not contains "term1" AND data.field2 not contains "term2"';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -96,7 +96,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build->invoke($this->queryObject);
         $qry = $this->queryObject->getQuery();
         $expectedQry
-             = 'SELECT field1, field2 FROM test WHERE field1 not contains "term1" OR field2 not contains "term2"';
+             = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 not contains "term1" OR data.field2 not contains "term2"';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -106,7 +106,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build = self::getMethod('buildQuery');
         $build->invoke($this->queryObject);
         $qry         = $this->queryObject->getQuery();
-        $expectedQry = 'SELECT field1, field2 FROM test WHERE field1 is null';
+        $expectedQry = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 is null';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -116,7 +116,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build = self::getMethod('buildQuery');
         $build->invoke($this->queryObject);
         $qry         = $this->queryObject->getQuery();
-        $expectedQry = 'SELECT field1, field2 FROM test WHERE field1 is null';
+        $expectedQry = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 is null';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -129,7 +129,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
         $build->invoke($this->queryObject);
         $qry = $this->queryObject->getQuery();
         $expectedQry
-             = 'SELECT field1, field2 FROM test WHERE field1 > 0 AND field1 < 1 AND field1 = 2 AND field3 != true OR field2 >= 3 OR field2 <= 4';
+             = 'SELECT data.field1, data.field2 FROM test WHERE data.field1 > 0 AND data.field1 < 1 AND data.field1 = 2 AND data.field3 != true OR data.field2 >= 3 OR data.field2 <= 4';
         $this->assertEquals($expectedQry, $qry);
     }
 
@@ -175,7 +175,7 @@ class TestDsQueryObject extends \PHPUnit_Framework_TestCase
 
     public function testDsSearch()
     {
-        $query = "SELECT field1 FROM test";
+        $query = "SELECT data.field1 FROM test";
         $res  = new GSResponse("ds.get", json_encode(array("bla" => 1)));
 
         $helper = $this->getMockBuilder(GigyaApiHelper::class)->disableOriginalConstructor()->setMethods(
