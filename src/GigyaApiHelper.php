@@ -23,6 +23,7 @@ class GigyaApiHelper
     private $dataCenter;
     private $token;
     const DEFAULT_CONFIG_FILE_PATH = ".." . DIRECTORY_SEPARATOR . "configuration/DefaultConfiguration.json";
+    private $gigyaUserArray;
 
     /**
      * GigyaApiHelper constructor.
@@ -44,6 +45,10 @@ class GigyaApiHelper
         $this->apiKey = !empty($apiKey) ? $apiKey : $confArray['apiKey'];
         $this->dataCenter = !empty($dataCenter) ? $dataCenter : $confArray['dataCenter'];
 
+    }
+
+    public function getGigyaUserArray() {
+        return $this->gigyaUserArray;
     }
 
     public function sendApiCall($method, $params)
@@ -104,6 +109,7 @@ class GigyaApiHelper
 
         $res          = $this->sendApiCall("accounts.getAccountInfo", $params);
         $dataArray    = $res->getData()->serialize();
+        $this->gigyaUserArray = $dataArray;
         $profileArray = $dataArray['profile'];
         $gigyaUser    = GigyaUserFactory::createGigyaUserFromArray($dataArray);
         $gigyaProfile = GigyaUserFactory::createGigyaProfileFromArray($profileArray);
