@@ -51,6 +51,16 @@ class GigyaApiHelper
         return $this->gigyaUserArray;
     }
 
+    /**
+     * @param \Gigya\User\GigyaUser $gigyaUser
+     * @return array
+     */
+    public function UserObjectToArray($gigyaUser) {
+        $array = get_object_vars($gigyaUser);
+        $this->gigyaUserArray = $array;
+        return $array;
+    }
+
     public function sendApiCall($method, $params)
     {
         $req = GSFactory::createGSRequestAppKey($this->apiKey, $this->key, $this->secret, $method,
@@ -109,7 +119,6 @@ class GigyaApiHelper
 
         $res          = $this->sendApiCall("accounts.getAccountInfo", $params);
         $dataArray    = $res->getData()->serialize();
-        $this->gigyaUserArray = $dataArray;
         $profileArray = $dataArray['profile'];
         $gigyaUser    = GigyaUserFactory::createGigyaUserFromArray($dataArray);
         $gigyaProfile = GigyaUserFactory::createGigyaProfileFromArray($profileArray);

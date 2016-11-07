@@ -27,7 +27,7 @@ abstract class CmsUpdater
     /**
      * CmsUpdater constructor.
      *
-     * @param \Gigya\user\GigyaUser $gigyaAccount
+     * @param array $gigyaAccount
      */
     public function __construct($gigyaAccount, $mappingFilePath)
     {
