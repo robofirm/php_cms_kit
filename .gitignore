@@ -1,6 +1,8 @@
 composer.phar
 vendor/
 bin/
+.idea/
+
 
 
 
