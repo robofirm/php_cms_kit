@@ -390,26 +390,27 @@ class GigyaUser extends GigyaJsonObject {
     return $emailLoginId;
   }
 
-  public function getNestedValue($path) {
-    $keys     = explode(".", $path);
-    $section  = array_shift($keys);
-    $accArray = (array) $this->__get('get' . ucfirst($section));
-    foreach ($keys as $key) {
-      if (isset($accArray[$key])) {
-        $accArray = $accArray[$key];
-      }
-      else {
-        $accArray = NULL;
-      }
+    /**
+     * @param $path : . (dot) separated string
+     * @return GigyaUser|string
+     */
+    public function getNestedValue($path)
+    {
+        $keys     = explode(".", $path);
+        $accData = $this;
+        foreach ($keys as $key) {
+            if (is_null($accData)) { // there is no such key
+                return null;
+            } elseif (is_array($accData)) {
+                $accData = $accData[$key];
+            } else {
+                $accData = $accData->__get('get' . ucfirst($key));
+            }
+        }
+        if (is_array($accData) || is_object($accData)) {
+            $accData = json_encode($accData, JSON_UNESCAPED_SLASHES);
+        }
+        return $accData;
     }
-    if (is_array($accArray) || is_object($accArray)) {
-      $accArray = json_encode($accArray, JSON_UNESCAPED_SLASHES);
-    }
-
-    return $accArray;
-
-  }
 
 }
-
-

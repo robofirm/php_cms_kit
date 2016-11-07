@@ -10,6 +10,10 @@
         {
             "name": "Yaniv Aran-Shamir",
             "email": "yaniva@gigya-inc.com"
+        },
+        {
+            "name": "Guy Aviv",
+            "email": "guy.av@gigya-inc.com"
         }
     ],
     "require": {},

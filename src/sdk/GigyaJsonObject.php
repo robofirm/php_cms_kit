@@ -49,7 +49,6 @@ abstract class GigyaJsonObject
         if (method_exists($this, $getter)) {
             return call_user_func(array($this, $getter));
         }
-
         return property_exists($this, $prop) ? $this->$prop : null;
     }
 
