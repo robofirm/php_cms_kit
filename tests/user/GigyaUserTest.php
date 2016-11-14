@@ -1,4 +1,6 @@
 <?php
+use Gigya\CmsStarterKit\sdk\GSObject;
+use Gigya\CmsStarterKit\user\GigyaUserFactory;
 
 /**
  * Created by PhpStorm.
@@ -16,10 +18,7 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
       __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
       . "resources/account.json"
     );
-    $gigyaUser
-          = Gigya\CmsStarterKit\user\GigyaUserFactory::createGigyaUserFromJson(
-      $json
-    );
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromJson($json);
     $this->assertEquals(
       "9b792cd0d4df4c9d938402ea793f33e6", $gigyaUser->getUID, "checking UID"
     );
@@ -31,9 +30,8 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
       __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
       . "resources/account.json"
     );
-    $gso  = new \Gigya\CmsStarterKit\sdk\GSObject($json);
-    $gigyaUser
-          = \Gigya\CmsStarterKit\user\GigyaUserFactory::createGigyaUserFromArray(
+    $gso  = new GSObject($json);
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromArray(
       $gso->serialize()
     );
     $this->assertEquals(
@@ -48,7 +46,7 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
       __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
       . "resources/account.json"
     );
-    $gigyaUser = Gigya\CmsStarterKit\user\GigyaUserFactory::createGigyaUserFromJson($json);
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromJson($json);
     $this->assertEquals(
       'ibm', $gigyaUser->getNestedValue('profile.work.company'),
       "Testing get from profile"
@@ -69,7 +67,7 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
       __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
       . "resources/account.json"
     );
-    $gigyaUser = Gigya\CmsStarterKit\user\GigyaUserFactory::createGigyaUserFromJson($json);
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromJson($json);
     $profile = $gigyaUser->getProfile();
     $this->assertEquals(33, $profile->getAge());
   }
@@ -79,7 +77,7 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
       __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
       . "resources/account.json"
     );
-    $gigyaUser = Gigya\CmsStarterKit\user\GigyaUserFactory::createGigyaUserFromJson($json);
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromJson($json);
     $randKey = $this->generateRandomString(4);
     $randVal = $this->generateRandomString(7);
     $gigyaUser->__set($randKey, $randVal);
@@ -87,6 +85,19 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($randVal, $gigyaUser->$key);
   }
 
+  public function testMagicGetterAndSettersOnProfile() {
+    $json    = file_get_contents(
+      __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
+      . "resources/account.json"
+    );
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromJson($json);
+    $profile = $gigyaUser->getProfile();
+    $randKey = $this->generateRandomString(4);
+    $randVal = $this->generateRandomString(7);
+    $profile->__set($randKey, $randVal);
+    $key = "get" . ucfirst($randKey);
+    $this->assertEquals($randVal, $profile->$key);
+  }
 
   private function generateRandomString($length = 10) {
     return substr(
