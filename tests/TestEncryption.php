@@ -1,4 +1,5 @@
 <?php
+use Gigya\CmsStarterKit\GigyaApiHelper;
 
 /**
  * Created by PhpStorm.
@@ -13,17 +14,13 @@ class TestEncryption extends PHPUnit_Framework_TestCase
     public function testEnc()
     {
         $toEnc = "testing testing 123";
-        $encStr = \Gigya\GigyaApiHelper::enc($toEnc, $this->key);
-        $decStr = \Gigya\GigyaApiHelper::decrypt($encStr, $this->key);
-        $this->assertEquals($toEnc, $decStr);
+        $encStr = GigyaApiHelper::enc($toEnc, $this->key);
+        $decStr = GigyaApiHelper::decrypt($encStr, $this->key);
+        $this->assertEquals($toEnc, trim($decStr));
     }
 
     protected function setUp()
     {
-        $this->key = \Gigya\GigyaApiHelper::genKeyFromString("testGenKey");
+        $this->key = GigyaApiHelper::genKeyFromString("testGenKey");
     }
-    
-    
-
-
 }

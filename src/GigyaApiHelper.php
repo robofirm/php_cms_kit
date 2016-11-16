@@ -11,6 +11,7 @@ namespace Gigya\CmsStarterKit;
 
 use Gigya\CmsStarterKit\sdk\GSApiException;
 use Gigya\CmsStarterKit\sdk\GSFactory;
+use Gigya\CmsStarterKit\sdk\GSObject;
 use Gigya\CmsStarterKit\sdk\SigUtils;
 use Gigya\CmsStarterKit\user\GigyaUserFactory;
 
@@ -22,8 +23,7 @@ class GigyaApiHelper
     private $apiKey;
     private $dataCenter;
     private $token;
-    const DEFAULT_CONFIG_FILE_PATH = ".." . DIRECTORY_SEPARATOR . "configuration/DefaultConfiguration.json";
-    private $gigyaUserArray;
+    private $defConfigFilePath;
 
     /**
      * GigyaApiHelper constructor.
@@ -33,32 +33,18 @@ class GigyaApiHelper
      */
     public function __construct($apiKey, $key, $secret, $dataCenter)
     {
-
-        $defaultConf = @file_get_contents(self::DEFAULT_CONFIG_FILE_PATH);
+        $this->defConfigFilePath = ".." . DIRECTORY_SEPARATOR . "configuration/DefaultConfiguration.json";
+        $defaultConf = @file_get_contents($this->defConfigFilePath);
         if (!$defaultConf) {
             $confArray = array();
         } else {
-            $confArray = json_decode(file_get_contents(self::DEFAULT_CONFIG_FILE_PATH));
+            $confArray = json_decode(file_get_contents($this->defConfigFilePath));
         }
         $this->key    = !empty($key) ? $key : $confArray['appKey'];
         $this->secret = !empty($secret) ? self::decrypt($secret) : self::decrypt($confArray['appSecret']);
         $this->apiKey = !empty($apiKey) ? $apiKey : $confArray['apiKey'];
         $this->dataCenter = !empty($dataCenter) ? $dataCenter : $confArray['dataCenter'];
 
-    }
-
-    public function getGigyaUserArray() {
-        return $this->gigyaUserArray;
-    }
-
-    /**
-     * @param \Gigya\User\GigyaUser $gigyaUser
-     * @return array
-     */
-    public function UserObjectToArray($gigyaUser) {
-        $array = get_object_vars($gigyaUser);
-        $this->gigyaUserArray = $array;
-        return $array;
     }
 
     public function sendApiCall($method, $params)
