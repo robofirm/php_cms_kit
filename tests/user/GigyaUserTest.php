@@ -99,6 +99,17 @@ class GigyaUserTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($randVal, $profile->$key);
   }
 
+  public function testNonExistentProperty() {
+    $json    = file_get_contents(
+      __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
+      . "resources/account.json"
+    );
+    $gigyaUser = GigyaUserFactory::createGigyaUserFromJson($json);
+    $randKey = $this->generateRandomString(4);
+    $key = "get" . ucfirst($randKey);
+    $this->assertEquals(null, $gigyaUser->$key);
+  }
+
   private function generateRandomString($length = 10) {
     return substr(
       str_shuffle(

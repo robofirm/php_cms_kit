@@ -50,7 +50,7 @@ abstract class GigyaJsonObject
             return call_user_func(array($this, $getter));
         }
 
-        return $this->$prop;
+        return property_exists($this, $prop) ? $this->$prop : null;
     }
 
     public function __set($name, $value)
