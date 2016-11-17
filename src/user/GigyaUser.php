@@ -344,8 +344,10 @@ class GigyaUser extends GigyaJsonObject {
    * @param GigyaProfile $profile
    */
   public function setProfile($profile) {
-    $prof          = GigyaUserFactory::createGigyaProfileFromArray($profile);
-    $this->profile = $prof;
+      if (is_array($profile)) {
+          $profile = GigyaUserFactory::createGigyaProfileFromArray($profile);
+      }
+      $this->profile = $profile;
   }
 
   /**
