@@ -401,12 +401,14 @@ class GigyaUser extends GigyaJsonObject {
         $keys     = explode(".", $path);
         $accData = $this;
         foreach ($keys as $key) {
-            if (is_null($accData)) { // there is no such key
-                return null;
-            } elseif (is_array($accData)) {
-                $accData = $accData[$key];
-            } else {
+            if (is_object($accData)) {
                 $accData = $accData->__get('get' . ucfirst($key));
+            }
+            elseif (is_array($accData)) {
+                $accData = $accData[$key];
+            }
+            elseif (is_null($accData)) { // there is no such key
+                return null;
             }
         }
         if (is_array($accData) || is_object($accData)) {
