@@ -162,8 +162,14 @@ class GigyaApiHelper
 
     public function queryDs($uid, $table, $fields)
     {
-        
 
+
+    }
+
+    public function userObjFromArray($user_arr)
+    {
+        $obj = GigyaUserFactory::createGigyaUserFromArray($user_arr);
+        return $obj;
     }
 
     // static
@@ -205,8 +211,6 @@ class GigyaApiHelper
         $salt = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
         $key = hash_pbkdf2("sha256", $str, $salt, 1000, 32);
         return $key;
-
-
     }
 
 }

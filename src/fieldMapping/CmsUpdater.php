@@ -16,6 +16,9 @@ use Gigya\CmsStarterKit\fieldMapping\ConfItem;
 abstract class CmsUpdater
 {
 
+    /**
+     * @var \Gigya\CmsStarterKit\user\GigyaUser
+     */
     private $gigyaUser;
     private $gigyaMapping;
     /**
@@ -26,8 +29,7 @@ abstract class CmsUpdater
 
     /**
      * CmsUpdater constructor.
-     *
-     * @param \Gigya\user\GigyaUser $gigyaAccount
+     * @param \Gigya\CmsStarterKit\User\GigyaUser $gigyaAccount
      */
     public function __construct($gigyaAccount, $mappingFilePath)
     {
@@ -41,7 +43,7 @@ abstract class CmsUpdater
      *
      * @throws \Exception
      */
-    public function updateCmsAccount(&$cmsAccount)
+    public function updateCmsAccount(&$cmsAccount, $cmsAccountSaver = null)
     {
         $this->retrieveFieldMappings();
 
@@ -49,7 +51,7 @@ abstract class CmsUpdater
             $this->callCmsHook();
         }
         $this->setAccountValues($cmsAccount);
-        $this->saveCmsAccount($cmsAccount);
+        $this->saveCmsAccount($cmsAccount, $cmsAccountSaver);
     }
 
     /**
@@ -62,8 +64,7 @@ abstract class CmsUpdater
 
     abstract protected function callCmsHook();
 
-    abstract protected function saveCmsAccount(&$cmsAccount);
-
+    abstract protected function saveCmsAccount(&$cmsAccount, $cmsAccountSaver);
 
     protected function retrieveFieldMappings()
     {
@@ -82,22 +83,15 @@ abstract class CmsUpdater
      */
     abstract protected function setAccountValues(&$account);
 
+    /**
+     * @param $path
+     * @return \Gigya\CmsStarterKit\user\GigyaUser|null|string
+     */
     public function getValueFromGigyaAccount($path)
     {
-        $accArray = $this->gigyaUser;
-        $keys     = explode(".", $path);
-        foreach ($keys as $key) {
-            if (isset($accArray[$key])) {
-                $accArray = $accArray[$key];
-            } else {
-                $accArray = null;
-            }
-        }
-        if (is_array($accArray) || is_object($accArray)) {
-            $accArray = json_encode($accArray, JSON_UNESCAPED_SLASHES);
-        }
-
-        return $accArray;
+        $userData = $this->getGigyaUser();
+        $value = $userData->getNestedValue($path);
+        return $value;
     }
 
     /**
@@ -143,7 +137,7 @@ abstract class CmsUpdater
     }
 
     /**
-     * @return \Gigya\user\GigyaUser
+     * @return \Gigya\CmsStarterKit\user\GigyaUser
      */
     public function getGigyaUser()
     {
