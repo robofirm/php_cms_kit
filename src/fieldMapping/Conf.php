@@ -38,7 +38,7 @@ class Conf
         foreach ($array as $confItem) {
             $cmsKey = $confItem['cmsName'];
             $gigyaKey = $confItem['gigyaName'];
-            $direction = $confItem['direction'];
+            $direction = isset($confItem['direction']) ? $confItem['direction'] : "g2cms";
             $conf = new ConfItem($confItem);
             switch ($direction) {
                 case "cms2g":
