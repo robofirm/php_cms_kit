@@ -45,7 +45,9 @@ abstract class CmsUpdater
      */
     public function updateCmsAccount(&$cmsAccount, $cmsAccountSaver = null)
     {
-        $this->retrieveFieldMappings();
+        if (!isset($this->gigyaMapping)) {
+            $this->retrieveFieldMappings();
+        }
 
         if (method_exists($this, 'callCmsHook')) {
             $this->callCmsHook();
