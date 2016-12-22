@@ -68,7 +68,7 @@ abstract class CmsUpdater
 
     abstract protected function saveCmsAccount(&$cmsAccount, $cmsAccountSaver);
 
-    protected function retrieveFieldMappings()
+    public function retrieveFieldMappings()
     {
         $mappingJson = file_get_contents($this->path);
         if (false === $mappingJson) {
