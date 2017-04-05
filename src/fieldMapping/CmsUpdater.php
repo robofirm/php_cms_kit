@@ -70,7 +70,11 @@ abstract class CmsUpdater
 
     public function retrieveFieldMappings()
     {
-        $mappingJson = file_get_contents($this->path);
+        if (file_exists($this->path)) {
+            $mappingJson = file_get_contents($this->path);
+        } else {
+            throw new CmsUpdaterException("Field Mapping file could not be found at ". $this->path);
+        }
         if (false === $mappingJson) {
             $err     = error_get_last();
             $message = "Could not retrieve field mapping configuration file. message was:" . $err['message'];
