@@ -350,7 +350,7 @@ class DsQueryObject {
       $paramsArray['UID'] = $this->uid;
     }
     if (count($this->fields) > 0) {
-      $paramsArray['fields'] = $this->buildFieldsString();
+      $paramsArray['fields'] = $this->buildFieldsStringForGet();
     }
     $res = $this->apiHelper->sendApiCall("ds.get", $paramsArray);
     return $res->getData();
@@ -379,6 +379,16 @@ class DsQueryObject {
       "ds.search", array("query" => $this->query)
     );
     return $res->getData();
+  }
+
+
+  private function buildFieldsStringForGet() {
+    return in_array("*", $this->fields)
+      ? "*"
+      : join(
+        ",", $this->fields
+      );
+
   }
 
   protected function buildQuery() {
