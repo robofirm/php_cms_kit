@@ -368,7 +368,11 @@ class DsQueryObject {
   }
 
   private function prefixField($field) {
-    return 'uid' == strtolower($field) ? $field : 'data.' . $field;
+    $no_prefix_fields = ['uid', 'oid'];
+    if (in_array($field, $no_prefix_fields)) {
+      return $field;
+    }
+    return 'data.' . $field;
   }
 
   public function dsSearch() {
