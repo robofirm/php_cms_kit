@@ -369,7 +369,7 @@ class DsQueryObject {
 
   private function prefixField($field) {
     $no_prefix_fields = ['uid', 'oid'];
-    if (in_array($field, $no_prefix_fields)) {
+    if (in_array(strtolower($field), $no_prefix_fields)) {
       return $field;
     }
     return 'data.' . $field;
