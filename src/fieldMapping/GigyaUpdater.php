@@ -173,8 +173,8 @@ abstract class GigyaUpdater
             $confs = $this->cmsMappings[$key];
             foreach ($confs as $conf) {
                 $value       = $this->castVal($value, $conf);
-                if (null != $value) {
-                    $this->assignArrayByPath($gigyaArray, $conf->getGigyaName(), $value);
+                if(!is_null($value)) {
+                  $this->assignArrayByPath($gigyaArray, $conf->getGigyaName(), $value);
                 }
             }
         }
