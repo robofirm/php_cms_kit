@@ -8,7 +8,6 @@
 
 namespace Gigya\CmsStarterKit;
 
-
 use Gigya\CmsStarterKit\sdk\GSApiException;
 use Gigya\CmsStarterKit\sdk\GSFactory;
 use Gigya\CmsStarterKit\sdk\GSObject;
@@ -28,8 +27,9 @@ class GigyaApiHelper
     /**
      * GigyaApiHelper constructor.
      *
-     * @param string $key    gigya app/user key
-     * @param string $secret gigya app/user secret
+     * @param string $apiKey	Gigya API key
+     * @param string $key    	gigya app/user key
+     * @param string $secret 	gigya app/user secret
      */
     public function __construct($apiKey, $key, $secret, $dataCenter)
     {
@@ -184,8 +184,7 @@ class GigyaApiHelper
             $strDec        = base64_decode($str);
             $iv            = substr($strDec, 0, $iv_size);
             $text_only     = substr($strDec, $iv_size);
-            $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,
-              $text_only, MCRYPT_MODE_CBC, $iv);
+            $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $text_only, MCRYPT_MODE_CBC, $iv);
 
             return $plaintext_dec;
         }
@@ -212,5 +211,4 @@ class GigyaApiHelper
         $key = hash_pbkdf2("sha256", $str, $salt, 1000, 32);
         return $key;
     }
-
 }
