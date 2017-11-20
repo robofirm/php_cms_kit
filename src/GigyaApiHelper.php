@@ -222,6 +222,17 @@
 		}
 
 		/**
+		 * Alias of enc()
+		 *
+		 * @param string        $str
+		 * @param null | string $key
+		 * @return string
+		 */
+		public static function encrypt($str, $key = null) {
+			return GigyaApiHelper::enc($str, $key);
+		}
+
+		/**
 		 * @param null | string $str
 		 * @return mixed
 		 */
