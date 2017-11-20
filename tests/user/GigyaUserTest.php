@@ -1,6 +1,6 @@
 <?php
-use Gigya\CmsStarterKit\sdk\GSObject;
-use Gigya\CmsStarterKit\user\GigyaUserFactory;
+use Gigya\CmsStarterKit\Sdk\GSObject;
+use Gigya\CmsStarterKit\User\GigyaUserFactory;
 
 /**
  * Created by PhpStorm.

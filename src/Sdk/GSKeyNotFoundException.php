@@ -6,7 +6,7 @@
  * Time: 8:49 PM
  */
 
-namespace Gigya\CmsStarterKit\sdk;
+namespace Gigya\CmsStarterKit\Sdk;
 
 
 class GSKeyNotFoundException extends GSException

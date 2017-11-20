@@ -6,7 +6,7 @@
  * Time: 5:17 PM
  */
 
-use Gigya\CmsStarterKit\ds\DsFactory;
+use Gigya\CmsStarterKit\Ds\DsFactory;
 
 
 class DsFactoryTests extends \PHPUnit_Framework_TestCase
@@ -69,7 +69,7 @@ class DsFactoryTests extends \PHPUnit_Framework_TestCase
 
     protected static function getMethod($name)
     {
-        $class  = new ReflectionClass('Gigya\ds\DsQueryObject');
+        $class  = new ReflectionClass('Gigya\Ds\DsQueryObject');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
 

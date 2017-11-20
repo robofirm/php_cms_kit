@@ -9,11 +9,11 @@
 namespace Gigya\CmsStarterKit;
 
 
-use Gigya\CmsStarterKit\sdk\GSApiException;
-use Gigya\CmsStarterKit\sdk\GSFactory;
-use Gigya\CmsStarterKit\sdk\GSObject;
-use Gigya\CmsStarterKit\sdk\SigUtils;
-use Gigya\CmsStarterKit\user\GigyaUserFactory;
+use Gigya\CmsStarterKit\Sdk\GSApiException;
+use Gigya\CmsStarterKit\Sdk\GSFactory;
+use Gigya\CmsStarterKit\Sdk\GSObject;
+use Gigya\CmsStarterKit\Sdk\SigUtils;
+use Gigya\CmsStarterKit\User\GigyaUserFactory;
 
 class GigyaApiHelper
 {

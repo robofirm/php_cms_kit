@@ -6,7 +6,7 @@
  * Time: 8:57 PM
  */
 
-namespace Gigya\CmsStarterKit\sdk;
+namespace Gigya\CmsStarterKit\Sdk;
 
 
 class SigUtils

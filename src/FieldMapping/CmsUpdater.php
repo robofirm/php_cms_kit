@@ -8,16 +8,16 @@
  * Time: 4:47 PM
  */
 
-namespace Gigya\CmsStarterKit\fieldMapping;
-use Gigya\CmsStarterKit\fieldMapping\CmsUpdaterException;
-use Gigya\CmsStarterKit\fieldMapping\Conf;
-use Gigya\CmsStarterKit\fieldMapping\ConfItem;
+namespace Gigya\CmsStarterKit\FieldMapping;
+use Gigya\CmsStarterKit\FieldMapping\CmsUpdaterException;
+use Gigya\CmsStarterKit\FieldMapping\Conf;
+use Gigya\CmsStarterKit\FieldMapping\ConfItem;
 
 abstract class CmsUpdater
 {
 
     /**
-     * @var \Gigya\CmsStarterKit\user\GigyaUser
+     * @var \Gigya\CmsStarterKit\User\GigyaUser
      */
     private $gigyaUser;
     private $gigyaMapping;
@@ -91,7 +91,7 @@ abstract class CmsUpdater
 
     /**
      * @param $path
-     * @return \Gigya\CmsStarterKit\user\GigyaUser|null|string
+     * @return \Gigya\CmsStarterKit\User\GigyaUser|null|string
      */
     public function getValueFromGigyaAccount($path)
     {
@@ -143,7 +143,7 @@ abstract class CmsUpdater
     }
 
     /**
-     * @return \Gigya\CmsStarterKit\user\GigyaUser
+     * @return \Gigya\CmsStarterKit\User\GigyaUser
      */
     public function getGigyaUser()
     {

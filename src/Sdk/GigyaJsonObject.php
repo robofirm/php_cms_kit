@@ -6,7 +6,7 @@
  * Time: 11:24 AM
  */
 
-namespace Gigya\CmsStarterKit\sdk;
+namespace Gigya\CmsStarterKit\Sdk;
 
 
 abstract class GigyaJsonObject

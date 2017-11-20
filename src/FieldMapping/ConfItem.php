@@ -7,9 +7,9 @@
  * Time: 10:11 AM
  */
 
-namespace Gigya\CmsStarterKit\fieldMapping;
+namespace Gigya\CmsStarterKit\FieldMapping;
 
-use Gigya\CmsStarterKit\sdk\GigyaJsonObject;
+use Gigya\CmsStarterKit\Sdk\GigyaJsonObject;
 
 class ConfItem
 {

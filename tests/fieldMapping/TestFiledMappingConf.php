@@ -6,7 +6,7 @@
  * Time: 1:58 PM
  */
 
-namespace Gigya\CmsStarterKit\fieldMapping;
+namespace Gigya\CmsStarterKit\FieldMapping;
 
 
 class TestFiledMappingConf extends \PHPUnit_Framework_TestCase

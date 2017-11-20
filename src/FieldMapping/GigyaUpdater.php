@@ -8,7 +8,7 @@
  */
 
 
-namespace Gigya\CmsStarterKit\fieldMapping;
+namespace Gigya\CmsStarterKit\FieldMapping;
 
 use Gigya\CmsStarterKit\GigyaApiHelper;
 

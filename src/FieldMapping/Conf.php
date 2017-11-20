@@ -6,7 +6,7 @@
  * Date: 5/26/16
  * Time: 9:06 AM
  */
-namespace Gigya\CmsStarterKit\fieldMapping;
+namespace Gigya\CmsStarterKit\FieldMapping;
 
 class Conf
 {

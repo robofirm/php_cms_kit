@@ -6,10 +6,10 @@
  * Time: 5:09 PM
  */
 
-namespace Gigya\CmsStarterKit\user;
+namespace Gigya\CmsStarterKit\User;
 
 
-use Gigya\CmsStarterKit\user\GigyaProfile;
+use Gigya\CmsStarterKit\User\GigyaProfile;
 
 class GigyaUserFactory
 {
@@ -27,12 +27,12 @@ class GigyaUserFactory
         $gigyaUser->setProfile($gigyaProfile);
         return $gigyaUser;
     }
-    
+
     static function createGigyaProfileFromJson($json) {
         $gigyaArray = json_decode($json);
         return self::createGigyaProfileFromArray($gigyaArray);
     }
-    
+
     static function createGigyaProfileFromArray($array) {
         $gigyaProfile = new GigyaProfile(null);
         foreach ($array as $key => $value) {

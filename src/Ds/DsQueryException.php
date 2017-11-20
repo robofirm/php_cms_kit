@@ -6,7 +6,7 @@
  * Time: 1:19 PM
  */
 
-namespace Gigya\CmsStarterKit\ds;
+namespace Gigya\CmsStarterKit\Ds;
 
 
 class DsQueryException extends \Exception

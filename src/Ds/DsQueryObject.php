@@ -6,11 +6,11 @@
  * Time: 9:37 AM
  */
 
-namespace Gigya\CmsStarterKit\ds;
+namespace Gigya\CmsStarterKit\Ds;
 
 
 use Gigya\CmsStarterKit\GigyaApiHelper;
-use Gigya\CmsStarterKit\sdk\GSFactory;
+use Gigya\CmsStarterKit\Sdk\GSFactory;
 
 class DsQueryObject {
   const VALUE_REG_EXP = '/.*(and|or|where)\s.*/i';
