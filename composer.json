@@ -1,5 +1,5 @@
 {
-    "name": "gigya/cms-starter-kit",
+    "name": "robofirm/cms-starter-kit",
     "description": "A starter kit to help integrate gigya into php based cms",
     "type": "library",
     "require-dev": {
